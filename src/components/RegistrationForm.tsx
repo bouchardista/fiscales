@@ -442,19 +442,21 @@ export default function RegistrationForm() {
               />
 
               {/* Google reCAPTCHA y botón enviar */}
-              <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-6 pt-4">
+              <div className="flex items-center justify-between gap-6 pt-4">
                 <FormField
                   control={form.control}
                   name="captcha"
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <ReCAPTCHA
-                          ref={recaptchaRef}
-                          sitekey={RECAPTCHA_SITE_KEY}
-                          onChange={handleCaptchaChange}
-                          theme="light"
-                        />
+                        <div className="h-[78px] flex items-center">
+                          <ReCAPTCHA
+                            ref={recaptchaRef}
+                            sitekey={RECAPTCHA_SITE_KEY}
+                            onChange={handleCaptchaChange}
+                            theme="light"
+                          />
+                        </div>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -462,7 +464,7 @@ export default function RegistrationForm() {
                 />
                 <Button 
                   type="submit" 
-                  className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold px-8 py-3 rounded-xl h-12 min-w-[120px]"
+                  className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold px-8 py-6 rounded-xl h-[78px] min-w-[120px]"
                 >
                   ENVIAR
                 </Button>
