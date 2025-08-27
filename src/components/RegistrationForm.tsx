@@ -1,15 +1,14 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import React, { useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Card } from "@/components/ui/card";
-import { toast } from "@/hooks/use-toast";
 import ReCAPTCHA from "react-google-recaptcha";
-import { useRef } from "react";
 
 const formSchema = z.object({
   apellido: z.string().min(2, "El apellido debe tener al menos 2 caracteres"),
@@ -78,10 +77,7 @@ export default function RegistrationForm() {
   };
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    toast({
-      title: "Formulario enviado exitosamente",
-      description: "Sus datos han sido registrados correctamente.",
-    });
+    alert("Formulario enviado exitosamente");
     console.log(values);
   }
 
