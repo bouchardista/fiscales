@@ -442,7 +442,7 @@ export default function RegistrationForm() {
               />
 
               {/* Google reCAPTCHA y botón enviar */}
-              <div className="flex items-center justify-end gap-2 pt-4">
+              <div className="flex items-center justify-end gap-2 pt-11">
                 <FormField
                   control={form.control}
                   name="captcha"
@@ -464,7 +464,7 @@ export default function RegistrationForm() {
                 />
                 <Button 
                   type="submit" 
-                  className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold px-8 py-6 rounded-xl h-[78px] min-w-[120px]"
+                  className="bg-gradient-to-b from-[#832B99] via-[#7A2A8A] via-[#6F297A] via-[#64286A] to-[#59275A] hover:from-[#7A2A8A] hover:to-[#64286A] text-white font-bold px-8 py-6 rounded-xl h-[78px] min-w-[120px] transition-all duration-300"
                 >
                   ENVIAR
                 </Button>
