@@ -6,7 +6,14 @@ export default function Landing() {
       {/* Header */}
       <header className="bg-gradient-to-r from-[#832B99] via-[#631577] to-[#440055] text-primary-foreground py-4 px-6">
         <div className="max-w-7xl mx-auto flex items-center justify-center">
-          <img src="/white-logo.png" alt="La Libertad Avanza" className="h-8" />
+          <a 
+            href="https://lalibertadavanza.com.ar/" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="hover:opacity-80 transition-opacity"
+          >
+            <img src="/white-logo.png" alt="La Libertad Avanza" className="h-8" />
+          </a>
         </div>
       </header>
 
@@ -33,18 +40,25 @@ export default function Landing() {
 
             {/* Candidate Image */}
             <div className="bg-white rounded-2xl p-6 shadow-lg">
-              <img 
-                src="/milei.png" 
-                alt="Javier Milei" 
-                className="w-full h-auto rounded-xl"
-              />
+              <a 
+                href="https://x.com/JMilei" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="block hover:opacity-90 transition-opacity"
+              >
+                <img 
+                  src="/milei.png" 
+                  alt="Javier Milei" 
+                  className="w-full h-auto rounded-xl"
+                />
+              </a>
             </div>
           </div>
         </div>
       </div>
 
       {/* Footer */}
-      <footer className="bg-[#371859] text-primary-foreground py-6 mt-16">
+      <footer className="bg-[#371859] text-primary-foreground py-6 mt-1.5">
         <div className="max-w-7xl mx-auto px-6 text-center space-y-4">
           <div className="flex flex-col items-center space-y-2 pb-4">
             <p className="text-sm font-medium">Seguinos</p>
