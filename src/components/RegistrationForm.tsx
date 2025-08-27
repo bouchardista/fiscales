@@ -82,8 +82,8 @@ export default function RegistrationForm() {
   }
 
   return (
-    <div className="min-h-screen bg-background py-8 px-4">
-      <div className="max-w-4xl mx-auto">
+    <div className="w-full">
+      <div className="max-w-2xl mx-auto">
         <Card className="p-8 border-2 border-primary/20 rounded-3xl bg-card shadow-lg">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">

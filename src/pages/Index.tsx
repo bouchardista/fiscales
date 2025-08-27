@@ -1,10 +1,8 @@
-import RegistrationForm from "@/components/RegistrationForm";
+import Landing from "./Landing";
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-background">
-      <RegistrationForm />
-    </div>
+    <Landing />
   );
 };
 
