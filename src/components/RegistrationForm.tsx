@@ -442,7 +442,7 @@ export default function RegistrationForm() {
               />
 
               {/* Google reCAPTCHA y botón enviar */}
-              <div className="flex items-center justify-between gap-6 pt-4">
+              <div className="flex items-center justify-end gap-2 pt-4">
                 <FormField
                   control={form.control}
                   name="captcha"
