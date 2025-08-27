@@ -7,8 +7,9 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Card } from "@/components/ui/card";
-import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "@/hooks/use-toast";
+import ReCAPTCHA from "react-google-recaptcha";
+import { useRef } from "react";
 
 const formSchema = z.object({
   apellido: z.string().min(2, "El apellido debe tener al menos 2 caracteres"),
@@ -28,7 +29,7 @@ const formSchema = z.object({
   ciudad: z.string().min(1, "Ciudad requerida"),
   barrio: z.string().optional(),
   sexo: z.string().min(1, "Sexo requerido"),
-  captcha: z.boolean().refine((val) => val === true, "Debe confirmar que no es un robot"),
+  captcha: z.string().min(1, "Debe completar el captcha"),
 }).refine((data) => data.dni === data.confirmarDni, {
   message: "Los DNI no coinciden",
   path: ["confirmarDni"],
@@ -57,15 +58,24 @@ const barrios = [
   "Cerro de las Rosas"
 ];
 
+// Constante para la site key de reCAPTCHA (esta es pública y se puede poner en el código)
+const RECAPTCHA_SITE_KEY = "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"; // Esta es una clave de prueba
+
 export default function RegistrationForm() {
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
+  
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       codigoPais: "+54",
       confirmarCodigoPais: "+54",
-      captcha: false,
+      captcha: "",
     },
   });
+
+  const handleCaptchaChange = (value: string | null) => {
+    form.setValue("captcha", value || "");
+  };
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     toast({
@@ -435,25 +445,21 @@ export default function RegistrationForm() {
                 )}
               />
 
-              {/* Captcha y botón enviar */}
-              <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 pt-4">
+              {/* Google reCAPTCHA y botón enviar */}
+              <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-6 pt-4">
                 <FormField
                   control={form.control}
                   name="captcha"
                   render={({ field }) => (
-                    <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                    <FormItem>
                       <FormControl>
-                        <Checkbox
-                          checked={field.value}
-                          onCheckedChange={field.onChange}
-                          className="data-[state=checked]:bg-primary data-[state=checked]:border-primary"
+                        <ReCAPTCHA
+                          ref={recaptchaRef}
+                          sitekey={RECAPTCHA_SITE_KEY}
+                          onChange={handleCaptchaChange}
+                          theme="light"
                         />
                       </FormControl>
-                      <div className="space-y-1 leading-none">
-                        <label className="text-sm font-medium">
-                          No soy un robot
-                        </label>
-                      </div>
                       <FormMessage />
                     </FormItem>
                   )}
