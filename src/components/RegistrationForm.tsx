@@ -442,32 +442,34 @@ export default function RegistrationForm() {
               />
 
               {/* Google reCAPTCHA y botón enviar */}
-              <div className="flex items-center justify-end gap-2 pt-11">
-                <FormField
-                  control={form.control}
-                  name="captcha"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <div className="h-[78px] flex items-center">
-                          <ReCAPTCHA
-                            ref={recaptchaRef}
-                            sitekey={RECAPTCHA_SITE_KEY}
-                            onChange={handleCaptchaChange}
-                            theme="light"
-                          />
-                        </div>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <Button 
-                  type="submit" 
-                  className="bg-gradient-to-b from-[#832B99] via-[#7A2A8A] via-[#6F297A] via-[#64286A] to-[#59275A] hover:from-[#7A2A8A] hover:to-[#64286A] text-white font-bold px-8 py-6 rounded-xl h-[78px] min-w-[120px] transition-all duration-300"
-                >
-                  ENVIAR
-                </Button>
+              <div className="pt-11">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-end gap-4">
+                  <FormField
+                    control={form.control}
+                    name="captcha"
+                    render={({ field }) => (
+                      <FormItem className="w-full sm:w-auto">
+                        <FormControl>
+                          <div className="h-[78px] flex items-center justify-center sm:justify-start">
+                            <ReCAPTCHA
+                              ref={recaptchaRef}
+                              sitekey={RECAPTCHA_SITE_KEY}
+                              onChange={handleCaptchaChange}
+                              theme="light"
+                            />
+                          </div>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <Button 
+                    type="submit" 
+                    className="w-full sm:w-auto bg-gradient-to-b from-[#832B99] via-[#7A2A8A] via-[#6F297A] via-[#64286A] to-[#59275A] hover:from-[#7A2A8A] hover:to-[#64286A] text-white font-bold px-8 py-6 rounded-xl h-[78px] min-w-[120px] transition-all duration-300"
+                  >
+                    ENVIAR
+                  </Button>
+                </div>
               </div>
             </form>
           </Form>
