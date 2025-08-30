@@ -7,6 +7,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Card } from "@/components/ui/card";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -33,6 +34,9 @@ const formSchema = z.object({
   barrio: z.string().optional(),
   sexo: z.string().min(1, "Sexo requerido"),
   captcha: z.string().min(1, "Debe completar el captcha"),
+  aceptarTerminos: z.boolean().refine((val) => val === true, {
+    message: "Debe aceptar los términos y condiciones",
+  }),
 }).refine((data) => data.dni === data.confirmarDni, {
   message: "Los DNI no coinciden",
   path: ["confirmarDni"],
@@ -98,6 +102,7 @@ export default function RegistrationForm() {
       codigoPais: "+54",
       confirmarCodigoPais: "+54",
       captcha: "",
+      aceptarTerminos: false,
     },
   });
 
@@ -345,7 +350,7 @@ export default function RegistrationForm() {
                   )}
                 />
                 <div>
-                  <FormLabel className="text-foreground font-medium">Fecha de nacimiento</FormLabel>
+                  <FormLabel className="text-foreground font-medium">Fecha de nacimiento*</FormLabel>
                   <div className="flex gap-2 mt-2">
                     <FormField
                       control={form.control}
@@ -467,7 +472,7 @@ export default function RegistrationForm() {
                     
                     return (
                       <FormItem>
-                        <FormLabel className="text-foreground font-medium">Barrio</FormLabel>
+                        <FormLabel className="text-foreground font-medium">Barrio*</FormLabel>
                         <Popover>
                           <PopoverTrigger asChild>
                             <FormControl>
@@ -561,8 +566,43 @@ export default function RegistrationForm() {
                 )}
               />
 
+              {/* Términos y condiciones */}
+              <FormField
+                control={form.control}
+                name="aceptarTerminos"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                    <FormControl>
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                        className="mt-1"
+                      />
+                    </FormControl>
+                    <div className="space-y-1 leading-none">
+                      <FormLabel className="text-sm font-normal">
+                        Acepto los{" "}
+                        <a 
+                          href="#" 
+                          className="text-primary hover:underline"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            // Aquí puedes abrir un modal o navegar a los términos
+                            alert("Aquí se abrirían los términos y condiciones");
+                          }}
+                        >
+                          términos y condiciones
+                        </a>{" "}
+                        del formulario
+                      </FormLabel>
+                      <FormMessage />
+                    </div>
+                  </FormItem>
+                )}
+              />
+
               {/* Google reCAPTCHA y botón enviar */}
-              <div className="pt-11">
+              <div className="pt-1">
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-end gap-4">
                   <FormField
                     control={form.control}
