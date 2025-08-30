@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -51,15 +51,40 @@ const ciudades = [
   "Villa María"
 ];
 
-const barrios = [
-  "Centro",
-  "Nueva Córdoba", 
-  "Güemes",
-  "General Paz",
-  "Alberdi",
-  "Barrio Norte",
-  "Cerro de las Rosas"
-];
+const barriosPorCiudad = {
+  "Ciudad de Córdoba": [
+    "Centro",
+    "Nueva Córdoba", 
+    "Güemes",
+    "General Paz",
+    "Alberdi",
+    "Barrio Norte",
+    "Cerro de las Rosas"
+  ],
+  "Villa Carlos Paz": [
+    "Centro",
+    "San Martín",
+    "Los Troncos",
+    "Sol y Río",
+    "Villa del Lago"
+  ],
+  "Río Cuarto": [
+    "Centro",
+    "San Martín",
+    "General Paz",
+    "Villa Sarmiento"
+  ],
+  "San Francisco": [
+    "Centro",
+    "San Martín",
+    "Villa del Rosario"
+  ],
+  "Villa María": [
+    "Centro",
+    "San Martín",
+    "Villa Nueva"
+  ]
+};
 
 // Constante para la site key de reCAPTCHA (esta es pública y se puede poner en el código)
 const RECAPTCHA_SITE_KEY = "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"; // Esta es una clave de prueba
@@ -79,6 +104,22 @@ export default function RegistrationForm() {
   const handleCaptchaChange = (value: string | null) => {
     form.setValue("captcha", value || "");
   };
+
+  // Limpiar barrio cuando cambie la ciudad
+  const ciudadSeleccionada = form.watch("ciudad");
+  useEffect(() => {
+    if (ciudadSeleccionada) {
+      // Si el barrio seleccionado no está disponible en la nueva ciudad, limpiarlo
+      const barriosDisponibles = barriosPorCiudad[ciudadSeleccionada as keyof typeof barriosPorCiudad] || [];
+      const barrioActual = form.getValues("barrio");
+      if (barrioActual && !barriosDisponibles.includes(barrioActual)) {
+        form.setValue("barrio", "");
+      }
+    } else {
+      // Si no hay ciudad seleccionada, limpiar el barrio
+      form.setValue("barrio", "");
+    }
+  }, [ciudadSeleccionada, form]);
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     alert("Formulario enviado exitosamente");
@@ -420,60 +461,67 @@ export default function RegistrationForm() {
                 <FormField
                   control={form.control}
                   name="barrio"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-foreground font-medium">Barrio</FormLabel>
-                      <Popover>
-                        <PopoverTrigger asChild>
-                          <FormControl>
-                            <Button
-                              variant="outline"
-                              role="combobox"
-                              className={cn(
-                                "w-full justify-between rounded-xl border-border bg-input h-12",
-                                !field.value && "text-muted-foreground"
-                              )}
-                            >
-                              {field.value
-                                ? barrios.find((barrio) => barrio === field.value)
-                                : "Selecciona tu barrio"}
-                              <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                            </Button>
-                          </FormControl>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-full p-0">
-                          <Command>
-                            <CommandInput placeholder="Buscar barrio..." />
-                            <CommandList>
-                              <CommandEmpty>No se encontró el barrio.</CommandEmpty>
-                              <CommandGroup>
-                                {barrios.map((barrio) => (
-                                  <CommandItem
-                                    value={barrio}
-                                    key={barrio}
-                                    onSelect={() => {
-                                      form.setValue("barrio", barrio);
-                                    }}
-                                  >
-                                    <Check
-                                      className={cn(
-                                        "mr-2 h-4 w-4",
-                                        barrio === field.value
-                                          ? "opacity-100"
-                                          : "opacity-0"
-                                      )}
-                                    />
-                                    {barrio}
-                                  </CommandItem>
-                                ))}
-                              </CommandGroup>
-                            </CommandList>
-                          </Command>
-                        </PopoverContent>
-                      </Popover>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                  render={({ field }) => {
+                    const ciudadSeleccionada = form.watch("ciudad");
+                    const barriosDisponibles = ciudadSeleccionada ? barriosPorCiudad[ciudadSeleccionada as keyof typeof barriosPorCiudad] || [] : [];
+                    
+                    return (
+                      <FormItem>
+                        <FormLabel className="text-foreground font-medium">Barrio</FormLabel>
+                        <Popover>
+                          <PopoverTrigger asChild>
+                            <FormControl>
+                              <Button
+                                variant="outline"
+                                role="combobox"
+                                disabled={!ciudadSeleccionada}
+                                className={cn(
+                                  "w-full justify-between rounded-xl border-border bg-input h-12",
+                                  !field.value && "text-muted-foreground",
+                                  !ciudadSeleccionada && "opacity-50 cursor-not-allowed"
+                                )}
+                              >
+                                {field.value
+                                  ? barriosDisponibles.find((barrio) => barrio === field.value)
+                                  : ciudadSeleccionada ? "Selecciona tu barrio" : "Selecciona una ciudad primero"}
+                                <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                              </Button>
+                            </FormControl>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-full p-0">
+                            <Command>
+                              <CommandInput placeholder="Buscar barrio..." />
+                              <CommandList>
+                                <CommandEmpty>No se encontró el barrio.</CommandEmpty>
+                                <CommandGroup>
+                                  {barriosDisponibles.map((barrio) => (
+                                    <CommandItem
+                                      value={barrio}
+                                      key={barrio}
+                                      onSelect={() => {
+                                        form.setValue("barrio", barrio);
+                                      }}
+                                    >
+                                      <Check
+                                        className={cn(
+                                          "mr-2 h-4 w-4",
+                                          barrio === field.value
+                                            ? "opacity-100"
+                                            : "opacity-0"
+                                        )}
+                                      />
+                                      {barrio}
+                                    </CommandItem>
+                                  ))}
+                                </CommandGroup>
+                              </CommandList>
+                            </Command>
+                          </PopoverContent>
+                        </Popover>
+                        <FormMessage />
+                      </FormItem>
+                    );
+                  }}
                 />
               </div>
 
