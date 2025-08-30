@@ -31,7 +31,7 @@ const formSchema = z.object({
   mesNacimiento: z.string().min(1, "Mes requerido"),
   anoNacimiento: z.string().min(4, "Año requerido"),
   ciudad: z.string().min(1, "Ciudad requerida"),
-  barrio: z.string().optional(),
+  barrio: z.string().min(1, "Barrio requerido"),
   sexo: z.string().min(1, "Sexo requerido"),
   captcha: z.string().min(1, "Debe completar el captcha"),
   aceptarTerminos: z.boolean().refine((val) => val === true, {
@@ -214,7 +214,7 @@ export default function RegistrationForm() {
               </div>
 
               {/* Tercera fila: Celular */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
                 <div>
                   <FormLabel className="text-foreground font-medium">Celular*</FormLabel>
                   <div className="flex gap-2 mt-2">
@@ -250,6 +250,7 @@ export default function RegistrationForm() {
                               className="rounded-xl border-border bg-input h-12"
                             />
                           </FormControl>
+                          <FormMessage />
                         </FormItem>
                       )}
                     />
@@ -265,13 +266,14 @@ export default function RegistrationForm() {
                               className="rounded-xl border-border bg-input h-12"
                             />
                           </FormControl>
+                          <FormMessage />
                         </FormItem>
                       )}
                     />
                   </div>
                 </div>
 
-                <div>
+                <div className="md:pl-0">
                   <FormLabel className="text-foreground font-medium">Confirmar Celular*</FormLabel>
                   <div className="flex gap-2 mt-2">
                     <FormField
@@ -306,6 +308,7 @@ export default function RegistrationForm() {
                               className="rounded-xl border-border bg-input h-12"
                             />
                           </FormControl>
+                          <FormMessage />
                         </FormItem>
                       )}
                     />
@@ -326,6 +329,7 @@ export default function RegistrationForm() {
                       )}
                     />
                   </div>
+                  <FormMessage />
                 </div>
               </div>
 
@@ -364,6 +368,7 @@ export default function RegistrationForm() {
                               className="rounded-xl border-border bg-input h-12"
                             />
                           </FormControl>
+                          <FormMessage />
                         </FormItem>
                       )}
                     />
@@ -380,6 +385,7 @@ export default function RegistrationForm() {
                               className="rounded-xl border-border bg-input h-12"
                             />
                           </FormControl>
+                          <FormMessage />
                         </FormItem>
                       )}
                     />
@@ -396,6 +402,7 @@ export default function RegistrationForm() {
                               className="rounded-xl border-border bg-input h-12"
                             />
                           </FormControl>
+                          <FormMessage />
                         </FormItem>
                       )}
                     />
@@ -603,7 +610,7 @@ export default function RegistrationForm() {
 
               {/* Google reCAPTCHA y botón enviar */}
               <div className="pt-1">
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-end gap-4">
+                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-end gap-4">
                   <FormField
                     control={form.control}
                     name="captcha"
@@ -623,12 +630,14 @@ export default function RegistrationForm() {
                       </FormItem>
                     )}
                   />
-                  <Button 
-                    type="submit" 
-                    className="w-full sm:w-auto bg-gradient-to-b from-[#832B99] via-[#7A2A8A] via-[#6F297A] via-[#64286A] to-[#59275A] hover:from-[#7A2A8A] hover:to-[#64286A] text-white font-bold px-8 py-6 rounded-xl h-[78px] min-w-[120px] transition-all duration-300"
-                  >
-                    ENVIAR
-                  </Button>
+                  <div className="flex flex-col items-center sm:items-end">
+                    <Button 
+                      type="submit" 
+                      className="w-full sm:w-auto bg-gradient-to-b from-[#832B99] via-[#7A2A8A] via-[#6F297A] via-[#64286A] to-[#59275A] hover:from-[#7A2A8A] hover:to-[#64286A] text-white font-bold px-8 py-6 rounded-xl h-[78px] min-w-[120px] transition-all duration-300"
+                    >
+                      ENVIAR
+                    </Button>
+                  </div>
                 </div>
               </div>
             </form>
