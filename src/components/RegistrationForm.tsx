@@ -1,13 +1,17 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Card } from "@/components/ui/card";
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Check, ChevronsUpDown } from "lucide-react";
+import { cn } from "@/lib/utils";
 import ReCAPTCHA from "react-google-recaptcha";
 
 const formSchema = z.object({
@@ -361,20 +365,54 @@ export default function RegistrationForm() {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel className="text-foreground font-medium">Ciudad*</FormLabel>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
-                        <FormControl>
-                          <SelectTrigger className="rounded-xl border-border bg-input h-12">
-                            <SelectValue placeholder="Selecciona tu ciudad" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {ciudades.map((ciudad) => (
-                            <SelectItem key={ciudad} value={ciudad}>
-                              {ciudad}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <FormControl>
+                            <Button
+                              variant="outline"
+                              role="combobox"
+                              className={cn(
+                                "w-full justify-between rounded-xl border-border bg-input h-12",
+                                !field.value && "text-muted-foreground"
+                              )}
+                            >
+                              {field.value
+                                ? ciudades.find((ciudad) => ciudad === field.value)
+                                : "Selecciona tu ciudad"}
+                              <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                            </Button>
+                          </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-full p-0">
+                          <Command>
+                            <CommandInput placeholder="Buscar ciudad..." />
+                            <CommandList>
+                              <CommandEmpty>No se encontró la ciudad.</CommandEmpty>
+                              <CommandGroup>
+                                {ciudades.map((ciudad) => (
+                                  <CommandItem
+                                    value={ciudad}
+                                    key={ciudad}
+                                    onSelect={() => {
+                                      form.setValue("ciudad", ciudad);
+                                    }}
+                                  >
+                                    <Check
+                                      className={cn(
+                                        "mr-2 h-4 w-4",
+                                        ciudad === field.value
+                                          ? "opacity-100"
+                                          : "opacity-0"
+                                      )}
+                                    />
+                                    {ciudad}
+                                  </CommandItem>
+                                ))}
+                              </CommandGroup>
+                            </CommandList>
+                          </Command>
+                        </PopoverContent>
+                      </Popover>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -385,20 +423,54 @@ export default function RegistrationForm() {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel className="text-foreground font-medium">Barrio</FormLabel>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
-                        <FormControl>
-                          <SelectTrigger className="rounded-xl border-border bg-input h-12">
-                            <SelectValue placeholder="Selecciona tu barrio" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {barrios.map((barrio) => (
-                            <SelectItem key={barrio} value={barrio}>
-                              {barrio}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <FormControl>
+                            <Button
+                              variant="outline"
+                              role="combobox"
+                              className={cn(
+                                "w-full justify-between rounded-xl border-border bg-input h-12",
+                                !field.value && "text-muted-foreground"
+                              )}
+                            >
+                              {field.value
+                                ? barrios.find((barrio) => barrio === field.value)
+                                : "Selecciona tu barrio"}
+                              <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                            </Button>
+                          </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-full p-0">
+                          <Command>
+                            <CommandInput placeholder="Buscar barrio..." />
+                            <CommandList>
+                              <CommandEmpty>No se encontró el barrio.</CommandEmpty>
+                              <CommandGroup>
+                                {barrios.map((barrio) => (
+                                  <CommandItem
+                                    value={barrio}
+                                    key={barrio}
+                                    onSelect={() => {
+                                      form.setValue("barrio", barrio);
+                                    }}
+                                  >
+                                    <Check
+                                      className={cn(
+                                        "mr-2 h-4 w-4",
+                                        barrio === field.value
+                                          ? "opacity-100"
+                                          : "opacity-0"
+                                      )}
+                                    />
+                                    {barrio}
+                                  </CommandItem>
+                                ))}
+                              </CommandGroup>
+                            </CommandList>
+                          </Command>
+                        </PopoverContent>
+                      </Popover>
                       <FormMessage />
                     </FormItem>
                   )}
