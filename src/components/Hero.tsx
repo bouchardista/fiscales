@@ -28,9 +28,7 @@ const Hero = () => {
       <header className="bg-gradient-to-r from-[#832B99] via-[#631577] to-[#440055] text-primary-foreground py-4 px-6">
         <div className="max-w-7xl mx-auto flex items-center justify-center">
           <a 
-            href="https://lalibertadavanza.com.ar/" 
-            target="_blank" 
-            rel="noopener noreferrer"
+            href="/" 
             className="hover:opacity-80 transition-opacity"
           >
             <img src="/white-logo.png" alt="La Libertad Avanza" className="h-8" />
