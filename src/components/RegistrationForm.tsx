@@ -23,18 +23,29 @@ import { barriosPorCiudad } from "@/data/barrios";
 const formSchema = z.object({
   apellido: z.string().min(2, "El apellido debe tener al menos 2 caracteres"),
   nombre: z.string().min(2, "El nombre debe tener al menos 2 caracteres"),
-  dni: z.string().min(7, "DNI debe tener al menos 7 dígitos").max(8, "DNI debe tener máximo 8 dígitos"),
-  confirmarDni: z.string(),
+  dni: z.string()
+    .min(7, "DNI debe tener al menos 7 dígitos")
+    .max(8, "DNI debe tener máximo 8 dígitos")
+    .regex(/^\d+$/, "DNI debe contener solo números"),
+  confirmarDni: z.string().min(1, "Debe confirmar el DNI"),
   codigoPais: z.string().default("+54"),
   areaCelular: z.string().min(2, "Código de área requerido"),
   numeroCelular: z.string().min(6, "Número de celular requerido"),
   confirmarCodigoPais: z.string().default("+54"),
   confirmarAreaCelular: z.string(),
   confirmarNumeroCelular: z.string(),
-  email: z.string().email("Email inválido"),
-  diaNacimiento: z.string().min(1, "Día requerido"),
-  mesNacimiento: z.string().min(1, "Mes requerido"),
-  anoNacimiento: z.string().min(4, "Año requerido"),
+  email: z.string()
+    .min(1, "Email requerido")
+    .email("Email inválido - debe contener @ y formato válido"),
+  diaNacimiento: z.string()
+    .min(1, "Día requerido")
+    .regex(/^(0?[1-9]|[12][0-9]|3[01])$/, "Día inválido (1-31)"),
+  mesNacimiento: z.string()
+    .min(1, "Mes requerido")
+    .regex(/^(0?[1-9]|1[0-2])$/, "Mes inválido (1-12)"),
+  anoNacimiento: z.string()
+    .min(4, "Año requerido")
+    .regex(/^(19|20)\d{2}$/, "Año inválido (1900-2099)"),
   ciudad: z.string().min(1, "Localidad requerida"),
   barrio: z.string().optional(),
   sexo: z.string().min(1, "Sexo requerido"),
@@ -59,6 +70,27 @@ const formSchema = z.object({
 }, {
   message: "Barrio requerido para Córdoba Capital y OTROS",
   path: ["barrio"],
+}).refine((data) => {
+  // Validar que la fecha de nacimiento no sea futura
+  if (data.diaNacimiento && data.mesNacimiento && data.anoNacimiento) {
+    const dia = parseInt(data.diaNacimiento);
+    const mes = parseInt(data.mesNacimiento);
+    const ano = parseInt(data.anoNacimiento);
+    
+    // Verificar que sea una fecha válida
+    const fechaNacimiento = new Date(ano, mes - 1, dia);
+    if (fechaNacimiento.getDate() !== dia || fechaNacimiento.getMonth() !== mes - 1 || fechaNacimiento.getFullYear() !== ano) {
+      return false;
+    }
+    
+    // Verificar que no sea una fecha futura
+    const hoy = new Date();
+    return fechaNacimiento <= hoy;
+  }
+  return true;
+}, {
+  message: "La fecha de nacimiento debe ser válida y no puede ser futura",
+  path: ["diaNacimiento"],
 });
 
 
@@ -309,6 +341,12 @@ export default function RegistrationForm() {
                           maxLength={50}
                           {...field} 
                           className="rounded-xl border-border bg-input h-12"
+                          onKeyDown={(e) => {
+                            // No permitir números
+                            if (/[0-9]/.test(e.key)) {
+                              e.preventDefault();
+                            }
+                          }}
                         />
                       </FormControl>
                       <FormMessage />
@@ -327,6 +365,12 @@ export default function RegistrationForm() {
                           maxLength={50}
                           {...field} 
                           className="rounded-xl border-border bg-input h-12"
+                          onKeyDown={(e) => {
+                            // No permitir números
+                            if (/[0-9]/.test(e.key)) {
+                              e.preventDefault();
+                            }
+                          }}
                         />
                       </FormControl>
                       <FormMessage />
@@ -349,6 +393,12 @@ export default function RegistrationForm() {
                           maxLength={8}
                           {...field} 
                           className="rounded-xl border-border bg-input h-12"
+                          onKeyDown={(e) => {
+                            // Solo permitir números, backspace, delete, tab, escape, enter
+                            if (!/[0-9]/.test(e.key) && !['Backspace', 'Delete', 'Tab', 'Escape', 'Enter', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                              e.preventDefault();
+                            }
+                          }}
                         />
                       </FormControl>
                       <FormMessage />
@@ -367,6 +417,12 @@ export default function RegistrationForm() {
                           maxLength={8}
                           {...field} 
                           className="rounded-xl border-border bg-input h-12"
+                          onKeyDown={(e) => {
+                            // Solo permitir números, backspace, delete, tab, escape, enter
+                            if (!/[0-9]/.test(e.key) && !['Backspace', 'Delete', 'Tab', 'Escape', 'Enter', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                              e.preventDefault();
+                            }
+                          }}
                         />
                       </FormControl>
                       <FormMessage />
@@ -411,6 +467,12 @@ export default function RegistrationForm() {
                               maxLength={4}
                               {...field} 
                               className="w-20 rounded-xl border-border bg-input h-12"
+                              onKeyDown={(e) => {
+                                // Solo permitir números, backspace, delete, tab, escape, enter
+                                if (!/[0-9]/.test(e.key) && !['Backspace', 'Delete', 'Tab', 'Escape', 'Enter', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                                  e.preventDefault();
+                                }
+                              }}
                             />
                           </FormControl>
                           <FormMessage />
@@ -428,6 +490,12 @@ export default function RegistrationForm() {
                               maxLength={10}
                               {...field} 
                               className="rounded-xl border-border bg-input h-12"
+                              onKeyDown={(e) => {
+                                // Solo permitir números, backspace, delete, tab, escape, enter
+                                if (!/[0-9]/.test(e.key) && !['Backspace', 'Delete', 'Tab', 'Escape', 'Enter', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                                  e.preventDefault();
+                                }
+                              }}
                             />
                           </FormControl>
                           <FormMessage />
@@ -471,6 +539,12 @@ export default function RegistrationForm() {
                               maxLength={4}
                               {...field} 
                               className="w-20 rounded-xl border-border bg-input h-12"
+                              onKeyDown={(e) => {
+                                // Solo permitir números, backspace, delete, tab, escape, enter
+                                if (!/[0-9]/.test(e.key) && !['Backspace', 'Delete', 'Tab', 'Escape', 'Enter', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                                  e.preventDefault();
+                                }
+                              }}
                             />
                           </FormControl>
                           <FormMessage />
@@ -488,6 +562,12 @@ export default function RegistrationForm() {
                               maxLength={10}
                               {...field} 
                               className="rounded-xl border-border bg-input h-12"
+                              onKeyDown={(e) => {
+                                // Solo permitir números, backspace, delete, tab, escape, enter
+                                if (!/[0-9]/.test(e.key) && !['Backspace', 'Delete', 'Tab', 'Escape', 'Enter', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                                  e.preventDefault();
+                                }
+                              }}
                             />
                           </FormControl>
                           <FormMessage />
@@ -534,6 +614,12 @@ export default function RegistrationForm() {
                               maxLength={2}
                               {...field} 
                               className="rounded-xl border-border bg-input h-12"
+                              onKeyDown={(e) => {
+                                // Solo permitir números, backspace, delete, tab, escape, enter
+                                if (!/[0-9]/.test(e.key) && !['Backspace', 'Delete', 'Tab', 'Escape', 'Enter', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                                  e.preventDefault();
+                                }
+                              }}
                             />
                           </FormControl>
                           <FormMessage />
@@ -552,6 +638,12 @@ export default function RegistrationForm() {
                               maxLength={2}
                               {...field} 
                               className="rounded-xl border-border bg-input h-12"
+                              onKeyDown={(e) => {
+                                // Solo permitir números, backspace, delete, tab, escape, enter
+                                if (!/[0-9]/.test(e.key) && !['Backspace', 'Delete', 'Tab', 'Escape', 'Enter', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                                  e.preventDefault();
+                                }
+                              }}
                             />
                           </FormControl>
                           <FormMessage />
@@ -570,6 +662,12 @@ export default function RegistrationForm() {
                               maxLength={4}
                               {...field} 
                               className="rounded-xl border-border bg-input h-12"
+                              onKeyDown={(e) => {
+                                // Solo permitir números, backspace, delete, tab, escape, enter
+                                if (!/[0-9]/.test(e.key) && !['Backspace', 'Delete', 'Tab', 'Escape', 'Enter', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                                  e.preventDefault();
+                                }
+                              }}
                             />
                           </FormControl>
                           <FormMessage />
