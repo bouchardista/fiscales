@@ -1248,16 +1248,9 @@ export default function RegistrationForm() {
                     const barriosDisponibles = nombreLocalidad && nombreLocalidad !== "OTROS" ? barriosPorCiudad[nombreLocalidad as keyof typeof barriosPorCiudad] || [] : [];
                     const esBarrioRequerido = nombreLocalidad === "CORDOBA CAPITAL";
                     
-                    // Si es OTROS, agregar la opción OTROS a los barrios disponibles
-                    const barriosFinales = esOtros ? [{ id: 999, nombre: "OTROS" }] : barriosDisponibles;
+                    // Siempre agregar la opción OTROS a los barrios disponibles
+                    const barriosFinales = [...barriosDisponibles, { id: 999, nombre: "OTROS" }];
                     
-                    // Debug: verificar valores
-                    console.log("Debug barrio:", {
-                      ciudadSeleccionada,
-                      esOtros,
-                      barriosFinales,
-                      fieldValue: field.value
-                    });
                     
                     return (
                       <FormItem>
@@ -1281,7 +1274,9 @@ export default function RegistrationForm() {
                                 )}
                             >
                               {field.value
-                                ? barriosFinales.find((barrio) => barrio.id.toString() === field.value)?.nombre || "OTROS"
+                                ? field.value === "999" 
+                                  ? "OTROS"
+                                  : barriosFinales.find((barrio) => barrio.id.toString() === field.value)?.nombre
                                 : ciudadSeleccionada 
                                   ? esOtros
                                     ? "No hay barrios disponibles"
