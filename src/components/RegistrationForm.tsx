@@ -1248,8 +1248,8 @@ export default function RegistrationForm() {
                     const barriosDisponibles = nombreLocalidad && nombreLocalidad !== "OTROS" ? barriosPorCiudad[nombreLocalidad as keyof typeof barriosPorCiudad] || [] : [];
                     const esBarrioRequerido = nombreLocalidad === "CORDOBA CAPITAL";
                     
-                    // Siempre agregar la opción OTROS a los barrios disponibles
-                    const barriosFinales = [...barriosDisponibles, { id: 999, nombre: "OTROS" }];
+                    // Agregar la opción OTROS solo si no es la ciudad OTROS
+                    const barriosFinales = esOtros ? [] : [...barriosDisponibles, { id: 999, nombre: "OTROS" }];
                     
                     
                     return (
@@ -1266,11 +1266,11 @@ export default function RegistrationForm() {
                             <Button
                               variant="outline"
                               role="combobox"
-                              disabled={!ciudadSeleccionada || (!esBarrioRequerido && !esOtros)}
+                              disabled={!ciudadSeleccionada || !esBarrioRequerido}
                               className={cn(
                                   "w-full justify-between rounded-xl border-border bg-input h-12",
                                   !field.value && "text-muted-foreground",
-                                  (!ciudadSeleccionada || (!esBarrioRequerido && !esOtros)) && "opacity-50 cursor-not-allowed"
+                                  (!ciudadSeleccionada || !esBarrioRequerido) && "opacity-50 cursor-not-allowed"
                                 )}
                             >
                               {field.value
