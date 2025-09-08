@@ -408,17 +408,17 @@ export default function RegistrationForm() {
         <Card className="p-8 border-2 border-primary/20 rounded-3xl bg-card shadow-lg">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-              {/* Primera fila: Apellido y Nombre */}
+              {/* Primera fila: Nombre y Apellido */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <FormField
                   control={form.control}
-                  name="apellido"
+                  name="nombre"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-foreground font-medium">Apellido*</FormLabel>
+                      <FormLabel className="text-foreground font-medium">Nombre*</FormLabel>
                       <FormControl>
                         <Input 
-                          placeholder="González" 
+                          placeholder="Carlos" 
                           maxLength={50}
                           {...field} 
                           className="rounded-xl border-border bg-input h-12"
@@ -436,13 +436,13 @@ export default function RegistrationForm() {
                 />
                 <FormField
                   control={form.control}
-                  name="nombre"
+                  name="apellido"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-foreground font-medium">Nombre*</FormLabel>
+                      <FormLabel className="text-foreground font-medium">Apellido*</FormLabel>
                       <FormControl>
                         <Input 
-                          placeholder="Carlos" 
+                          placeholder="González" 
                           maxLength={50}
                           {...field} 
                           className="rounded-xl border-border bg-input h-12"
