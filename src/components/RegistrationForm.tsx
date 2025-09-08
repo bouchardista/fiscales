@@ -208,10 +208,6 @@ export default function RegistrationForm() {
     // Validar coincidencia de DNI en tiempo real
     if (confirmarDni && confirmarDni.length > 0) {
       if (dni && dni !== confirmarDni) {
-        form.setError("confirmarDni", {
-          type: "manual",
-          message: "Los DNI no coinciden"
-        });
         form.setError("dni", {
           type: "manual",
           message: "Los DNI no coinciden"
@@ -545,12 +541,12 @@ export default function RegistrationForm() {
                             const dni = form.getValues("dni");
                             const confirmarDni = e.target.value;
                             if (confirmarDni && dni && dni !== confirmarDni) {
-                              form.setError("confirmarDni", {
+                              form.setError("dni", {
                                 type: "manual",
                                 message: "Los DNI no coinciden"
                               });
                             } else if (confirmarDni && dni && dni === confirmarDni) {
-                              form.clearErrors("confirmarDni");
+                              form.clearErrors("dni");
                             }
                           }}
                         />
@@ -756,7 +752,7 @@ export default function RegistrationForm() {
                                 if (confirmarAreaCelular && confirmarAreaCelular.length > 0 && 
                                     areaCelular && areaCelular.length > 0) {
                                   if (areaCelular !== confirmarAreaCelular) {
-                                    form.setError("confirmarNumeroCelular", {
+                                    form.setError("areaCelular", {
                                       type: "manual",
                                       message: "Los números de celular no coinciden"
                                     });
@@ -765,10 +761,10 @@ export default function RegistrationForm() {
                                     if (confirmarNumeroCelular && numeroCelular && 
                                         confirmarNumeroCelular.length > 0 && numeroCelular.length > 0) {
                                       if (numeroCelular === confirmarNumeroCelular) {
-                                        form.clearErrors("confirmarNumeroCelular");
+                                        form.clearErrors("areaCelular");
                                       }
                                     } else {
-                                      form.clearErrors("confirmarNumeroCelular");
+                                      form.clearErrors("areaCelular");
                                     }
                                   }
                                 }
@@ -808,7 +804,7 @@ export default function RegistrationForm() {
                                 if (confirmarNumeroCelular && confirmarNumeroCelular.length > 0 && 
                                     numeroCelular && numeroCelular.length > 0) {
                                   if (numeroCelular !== confirmarNumeroCelular) {
-                                    form.setError("confirmarNumeroCelular", {
+                                    form.setError("areaCelular", {
                                       type: "manual",
                                       message: "Los números de celular no coinciden"
                                     });
@@ -817,10 +813,10 @@ export default function RegistrationForm() {
                                     if (confirmarAreaCelular && areaCelular && 
                                         confirmarAreaCelular.length > 0 && areaCelular.length > 0) {
                                       if (areaCelular === confirmarAreaCelular) {
-                                        form.clearErrors("confirmarNumeroCelular");
+                                        form.clearErrors("areaCelular");
                                       }
                                     } else {
-                                      form.clearErrors("confirmarNumeroCelular");
+                                      form.clearErrors("areaCelular");
                                     }
                                   }
                                 }
