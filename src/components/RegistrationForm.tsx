@@ -55,16 +55,16 @@ const formSchema = z.object({
   }),
 }).refine((data) => data.dni === data.confirmarDni, {
   message: "Los DNI no coinciden",
-  path: ["confirmarDni"],
+  path: ["dni"],
 }).refine((data) => 
   data.areaCelular === data.confirmarAreaCelular && 
   data.numeroCelular === data.confirmarNumeroCelular, {
   message: "Los números de celular no coinciden",
-  path: ["confirmarNumeroCelular"],
+  path: ["areaCelular"],
 }).refine((data) => 
   data.codigoPais === data.confirmarCodigoPais, {
   message: "Los códigos de país deben ser iguales",
-  path: ["confirmarCodigoPais"],
+  path: ["codigoPais"],
 }).refine((data) => {
   // Barrio es requerido solo si la localidad es CORDOBA CAPITAL o OTROS
   if (data.ciudad === "CORDOBA CAPITAL" || data.ciudad === "OTROS") {
@@ -188,12 +188,18 @@ export default function RegistrationForm() {
     // Validar coincidencia de códigos de país en tiempo real
     if (confirmarCodigoPais && confirmarCodigoPais.length > 0) {
       if (codigoPais && codigoPais !== confirmarCodigoPais) {
+        const errorMessage = "Los códigos de país deben ser iguales";
         form.setError("confirmarCodigoPais", {
           type: "manual",
-          message: "Los códigos de país deben ser iguales"
+          message: errorMessage
+        });
+        form.setError("codigoPais", {
+          type: "manual",
+          message: errorMessage
         });
       } else if (codigoPais && codigoPais === confirmarCodigoPais) {
         form.clearErrors("confirmarCodigoPais");
+        form.clearErrors("codigoPais");
       }
     }
   }, [codigoPais, confirmarCodigoPais, form]);
@@ -586,12 +592,18 @@ export default function RegistrationForm() {
                             // Validación instantánea de código de país
                             const confirmarCodigoPais = form.getValues("confirmarCodigoPais");
                             if (confirmarCodigoPais && confirmarCodigoPais !== value) {
+                              const errorMessage = "Los códigos de país deben ser iguales";
                               form.setError("codigoPais", {
                                 type: "manual",
-                                message: "Los códigos de país deben ser iguales"
+                                message: errorMessage
+                              });
+                              form.setError("confirmarCodigoPais", {
+                                type: "manual",
+                                message: errorMessage
                               });
                             } else if (confirmarCodigoPais && confirmarCodigoPais === value) {
                               form.clearErrors("codigoPais");
+                              form.clearErrors("confirmarCodigoPais");
                             }
                           }} defaultValue={field.value}>
                             <FormControl>
@@ -687,12 +699,18 @@ export default function RegistrationForm() {
                             // Validación instantánea de código de país
                             const codigoPais = form.getValues("codigoPais");
                             if (codigoPais && codigoPais !== value) {
+                              const errorMessage = "Los códigos de país deben ser iguales";
                               form.setError("confirmarCodigoPais", {
                                 type: "manual",
-                                message: "Los códigos de país deben ser iguales"
+                                message: errorMessage
+                              });
+                              form.setError("codigoPais", {
+                                type: "manual",
+                                message: errorMessage
                               });
                             } else if (codigoPais && codigoPais === value) {
                               form.clearErrors("confirmarCodigoPais");
+                              form.clearErrors("codigoPais");
                             }
                           }} defaultValue={field.value}>
                             <FormControl>
