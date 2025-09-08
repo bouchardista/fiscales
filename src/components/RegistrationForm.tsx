@@ -1299,8 +1299,9 @@ export default function RegistrationForm() {
                               className="mb-2"
                             />
                             <div className="max-h-60 overflow-y-auto">
-                              {/* Barrios filtrados */}
+                              {/* Barrios filtrados (excluyendo OTROS) */}
                               {barriosFinales
+                                .filter((barrio) => barrio.id !== 999)
                                 .filter((barrio) =>
                                   barrio.nombre.toLowerCase().includes(busquedaBarrio.toLowerCase())
                                 )
@@ -1324,6 +1325,34 @@ export default function RegistrationForm() {
                                     {barrio.nombre}
                                   </div>
                                 ))}
+                              
+                              {/* Separador si hay barrios filtrados */}
+                              {barriosFinales
+                                .filter((barrio) => barrio.id !== 999)
+                                .filter((barrio) =>
+                                  barrio.nombre.toLowerCase().includes(busquedaBarrio.toLowerCase())
+                                ).length > 0 && (
+                                <div className="border-t my-2"></div>
+                              )}
+                              
+                              {/* Opción OTROS siempre visible */}
+                              <div
+                                className="flex items-center px-2 py-2 hover:bg-accent hover:text-accent-foreground cursor-pointer rounded-sm font-medium"
+                                onClick={() => {
+                                  form.setValue("barrio", "999");
+                                  setBarrioOpen(false);
+                                }}
+                              >
+                                <Check
+                                  className={cn(
+                                    "mr-2 h-4 w-4",
+                                    "999" === field.value
+                                      ? "opacity-100"
+                                      : "opacity-0"
+                                  )}
+                                />
+                                OTROS
+                              </div>
                               
                             </div>
                           </div>
