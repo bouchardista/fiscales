@@ -93,9 +93,16 @@ const formSchema = z.object({
       return false;
     }
     
-    // Verificar que no sea nacido del 1 de enero de 2006 en adelante (menor de 18 años)
-    const fechaLimite = new Date(2006, 0, 1); // 1 de enero de 2006
-    if (fechaNacimiento >= fechaLimite) {
+    // Verificar que tenga 18 años cumplidos al 26 de octubre de 2025 (igual que el backend)
+    const fechaReferencia = new Date('2025-10-26'); // Fecha límite para tener 18 años
+    let edad = fechaReferencia.getFullYear() - fechaNacimiento.getFullYear();
+    const mesDiferencia = fechaReferencia.getMonth() - fechaNacimiento.getMonth();
+    
+    if (mesDiferencia < 0 || (mesDiferencia === 0 && fechaReferencia.getDate() < fechaNacimiento.getDate())) {
+      edad--;
+    }
+    
+    if (edad < 18) {
       return false;
     }
     
@@ -103,7 +110,7 @@ const formSchema = z.object({
   }
   return true;
 }, {
-  message: "Debes ser mayor de 18 años para registrarte (nacido antes del 1 de enero de 2006)",
+  message: "Debes tener 18 años cumplidos al 26 de octubre de 2025 para ser fiscal",
   path: ["diaNacimiento"],
 });
 
@@ -203,8 +210,13 @@ export default function RegistrationForm() {
           type: "manual",
           message: "Los DNI no coinciden"
         });
+        form.setError("dni", {
+          type: "manual",
+          message: "Los DNI no coinciden"
+        });
       } else if (dni && dni === confirmarDni) {
         form.clearErrors("confirmarDni");
+        form.clearErrors("dni");
       }
     }
   }, [dni, confirmarDni, form]);
@@ -220,12 +232,28 @@ export default function RegistrationForm() {
     if (confirmarAreaCelular && confirmarNumeroCelular && 
         confirmarAreaCelular.length > 0 && confirmarNumeroCelular.length > 0) {
       if (areaCelular !== confirmarAreaCelular || numeroCelular !== confirmarNumeroCelular) {
+        const errorMessage = "Los números de celular no coinciden";
         form.setError("confirmarNumeroCelular", {
           type: "manual",
-          message: "Los números de celular no coinciden"
+          message: errorMessage
+        });
+        form.setError("confirmarAreaCelular", {
+          type: "manual",
+          message: errorMessage
+        });
+        form.setError("numeroCelular", {
+          type: "manual",
+          message: errorMessage
+        });
+        form.setError("areaCelular", {
+          type: "manual",
+          message: errorMessage
         });
       } else {
         form.clearErrors("confirmarNumeroCelular");
+        form.clearErrors("confirmarAreaCelular");
+        form.clearErrors("numeroCelular");
+        form.clearErrors("areaCelular");
       }
     }
   }, [areaCelular, numeroCelular, confirmarAreaCelular, confirmarNumeroCelular, form]);
@@ -875,12 +903,12 @@ export default function RegistrationForm() {
                                     diaNacimiento.length > 0 && mesNacimiento.length > 0 && anoNacimiento.length === 4) {
                                   
                                   const dia = parseInt(diaNacimiento);
-                                  const mes = parseInt(mesNacimiento);
+                                  const mesNac = parseInt(mesNacimiento);
                                   const ano = parseInt(anoNacimiento);
                                   
                                   // Verificar que sea una fecha válida
-                                  const fechaNacimiento = new Date(ano, mes - 1, dia);
-                                  if (fechaNacimiento.getDate() !== dia || fechaNacimiento.getMonth() !== mes - 1 || fechaNacimiento.getFullYear() !== ano) {
+                                  const fechaNacimiento = new Date(ano, mesNac - 1, dia);
+                                  if (fechaNacimiento.getDate() !== dia || fechaNacimiento.getMonth() !== mesNac - 1 || fechaNacimiento.getFullYear() !== ano) {
                                     form.setError("diaNacimiento", {
                                       type: "manual",
                                       message: "Fecha de nacimiento inválida"
@@ -898,12 +926,19 @@ export default function RegistrationForm() {
                                     return;
                                   }
                                   
-                                  // Verificar que no sea nacido del 1 de enero de 2006 en adelante
-                                  const fechaLimite = new Date(2006, 0, 1);
-                                  if (fechaNacimiento >= fechaLimite) {
+                                  // Verificar que tenga 18 años cumplidos al 26 de octubre de 2025 (igual que el backend)
+                                  const fechaReferencia = new Date('2025-10-26');
+                                  let edad = fechaReferencia.getFullYear() - fechaNacimiento.getFullYear();
+                                  const mes = fechaReferencia.getMonth() - fechaNacimiento.getMonth();
+                                  
+                                  if (mes < 0 || (mes === 0 && fechaReferencia.getDate() < fechaNacimiento.getDate())) {
+                                    edad--;
+                                  }
+                                  
+                                  if (edad < 18) {
                                     form.setError("diaNacimiento", {
                                       type: "manual",
-                                      message: "Debes ser mayor de 18 años para registrarte (nacido antes del 1 de enero de 2006)"
+                                      message: "Debes tener 18 años cumplidos al 26 de octubre de 2025 para ser fiscal"
                                     });
                                     return;
                                   }
@@ -947,12 +982,12 @@ export default function RegistrationForm() {
                                     diaNacimiento.length > 0 && mesNacimiento.length > 0 && anoNacimiento.length === 4) {
                                   
                                   const dia = parseInt(diaNacimiento);
-                                  const mes = parseInt(mesNacimiento);
+                                  const mesNac = parseInt(mesNacimiento);
                                   const ano = parseInt(anoNacimiento);
                                   
                                   // Verificar que sea una fecha válida
-                                  const fechaNacimiento = new Date(ano, mes - 1, dia);
-                                  if (fechaNacimiento.getDate() !== dia || fechaNacimiento.getMonth() !== mes - 1 || fechaNacimiento.getFullYear() !== ano) {
+                                  const fechaNacimiento = new Date(ano, mesNac - 1, dia);
+                                  if (fechaNacimiento.getDate() !== dia || fechaNacimiento.getMonth() !== mesNac - 1 || fechaNacimiento.getFullYear() !== ano) {
                                     form.setError("diaNacimiento", {
                                       type: "manual",
                                       message: "Fecha de nacimiento inválida"
@@ -970,12 +1005,19 @@ export default function RegistrationForm() {
                                     return;
                                   }
                                   
-                                  // Verificar que no sea nacido del 1 de enero de 2006 en adelante
-                                  const fechaLimite = new Date(2006, 0, 1);
-                                  if (fechaNacimiento >= fechaLimite) {
+                                  // Verificar que tenga 18 años cumplidos al 26 de octubre de 2025 (igual que el backend)
+                                  const fechaReferencia = new Date('2025-10-26');
+                                  let edad = fechaReferencia.getFullYear() - fechaNacimiento.getFullYear();
+                                  const mes = fechaReferencia.getMonth() - fechaNacimiento.getMonth();
+                                  
+                                  if (mes < 0 || (mes === 0 && fechaReferencia.getDate() < fechaNacimiento.getDate())) {
+                                    edad--;
+                                  }
+                                  
+                                  if (edad < 18) {
                                     form.setError("diaNacimiento", {
                                       type: "manual",
-                                      message: "Debes ser mayor de 18 años para registrarte (nacido antes del 1 de enero de 2006)"
+                                      message: "Debes tener 18 años cumplidos al 26 de octubre de 2025 para ser fiscal"
                                     });
                                     return;
                                   }
@@ -1019,12 +1061,12 @@ export default function RegistrationForm() {
                                     diaNacimiento.length > 0 && mesNacimiento.length > 0 && anoNacimiento.length === 4) {
                                   
                                   const dia = parseInt(diaNacimiento);
-                                  const mes = parseInt(mesNacimiento);
+                                  const mesNac = parseInt(mesNacimiento);
                                   const ano = parseInt(anoNacimiento);
                                   
                                   // Verificar que sea una fecha válida
-                                  const fechaNacimiento = new Date(ano, mes - 1, dia);
-                                  if (fechaNacimiento.getDate() !== dia || fechaNacimiento.getMonth() !== mes - 1 || fechaNacimiento.getFullYear() !== ano) {
+                                  const fechaNacimiento = new Date(ano, mesNac - 1, dia);
+                                  if (fechaNacimiento.getDate() !== dia || fechaNacimiento.getMonth() !== mesNac - 1 || fechaNacimiento.getFullYear() !== ano) {
                                     form.setError("diaNacimiento", {
                                       type: "manual",
                                       message: "Fecha de nacimiento inválida"
@@ -1042,12 +1084,19 @@ export default function RegistrationForm() {
                                     return;
                                   }
                                   
-                                  // Verificar que no sea nacido del 1 de enero de 2006 en adelante
-                                  const fechaLimite = new Date(2006, 0, 1);
-                                  if (fechaNacimiento >= fechaLimite) {
+                                  // Verificar que tenga 18 años cumplidos al 26 de octubre de 2025 (igual que el backend)
+                                  const fechaReferencia = new Date('2025-10-26');
+                                  let edad = fechaReferencia.getFullYear() - fechaNacimiento.getFullYear();
+                                  const mes = fechaReferencia.getMonth() - fechaNacimiento.getMonth();
+                                  
+                                  if (mes < 0 || (mes === 0 && fechaReferencia.getDate() < fechaNacimiento.getDate())) {
+                                    edad--;
+                                  }
+                                  
+                                  if (edad < 18) {
                                     form.setError("diaNacimiento", {
                                       type: "manual",
-                                      message: "Debes ser mayor de 18 años para registrarte (nacido antes del 1 de enero de 2006)"
+                                      message: "Debes tener 18 años cumplidos al 26 de octubre de 2025 para ser fiscal"
                                     });
                                     return;
                                   }
