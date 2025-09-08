@@ -118,7 +118,7 @@ export default function RegistrationForm() {
   
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    mode: "onChange", // Habilitar validaciones en tiempo real
+    mode: "onBlur", // Cambiar a onBlur para evitar conflictos
     reValidateMode: "onChange", // Re-validar en cada cambio
     defaultValues: {
       codigoPais: "+54",
@@ -187,13 +187,15 @@ export default function RegistrationForm() {
   
   useEffect(() => {
     // Validar coincidencia de DNI en tiempo real
-    if (dni && confirmarDni && dni !== confirmarDni) {
-      form.setError("confirmarDni", {
-        type: "manual",
-        message: "Los DNI no coinciden"
-      });
-    } else if (dni && confirmarDni && dni === confirmarDni) {
-      form.clearErrors("confirmarDni");
+    if (confirmarDni && confirmarDni.length > 0) {
+      if (dni && dni !== confirmarDni) {
+        form.setError("confirmarDni", {
+          type: "manual",
+          message: "Los DNI no coinciden"
+        });
+      } else if (dni && dni === confirmarDni) {
+        form.clearErrors("confirmarDni");
+      }
     }
   }, [dni, confirmarDni, form]);
 
@@ -205,7 +207,8 @@ export default function RegistrationForm() {
   
   useEffect(() => {
     // Validar coincidencia de celular en tiempo real
-    if (areaCelular && numeroCelular && confirmarAreaCelular && confirmarNumeroCelular) {
+    if (confirmarAreaCelular && confirmarNumeroCelular && 
+        confirmarAreaCelular.length > 0 && confirmarNumeroCelular.length > 0) {
       if (areaCelular !== confirmarAreaCelular || numeroCelular !== confirmarNumeroCelular) {
         form.setError("confirmarNumeroCelular", {
           type: "manual",
@@ -501,6 +504,20 @@ export default function RegistrationForm() {
                               e.preventDefault();
                             }
                           }}
+                          onChange={(e) => {
+                            field.onChange(e);
+                            // Validación instantánea
+                            const dni = form.getValues("dni");
+                            const confirmarDni = e.target.value;
+                            if (confirmarDni && dni && dni !== confirmarDni) {
+                              form.setError("confirmarDni", {
+                                type: "manual",
+                                message: "Los DNI no coinciden"
+                              });
+                            } else if (confirmarDni && dni && dni === confirmarDni) {
+                              form.clearErrors("confirmarDni");
+                            }
+                          }}
                         />
                       </FormControl>
                       <FormMessage />
@@ -680,6 +697,26 @@ export default function RegistrationForm() {
                                   e.preventDefault();
                                 }
                               }}
+                              onChange={(e) => {
+                                field.onChange(e);
+                                // Validación instantánea de celular
+                                const areaCelular = form.getValues("areaCelular");
+                                const numeroCelular = form.getValues("numeroCelular");
+                                const confirmarAreaCelular = form.getValues("confirmarAreaCelular");
+                                const confirmarNumeroCelular = e.target.value;
+                                
+                                if (confirmarAreaCelular && confirmarNumeroCelular && 
+                                    confirmarAreaCelular.length > 0 && confirmarNumeroCelular.length > 0) {
+                                  if (areaCelular !== confirmarAreaCelular || numeroCelular !== confirmarNumeroCelular) {
+                                    form.setError("confirmarNumeroCelular", {
+                                      type: "manual",
+                                      message: "Los números de celular no coinciden"
+                                    });
+                                  } else {
+                                    form.clearErrors("confirmarNumeroCelular");
+                                  }
+                                }
+                              }}
                             />
                           </FormControl>
                           <FormMessage />
@@ -706,6 +743,22 @@ export default function RegistrationForm() {
                           maxLength={100}
                           {...field} 
                           className="rounded-xl border-border bg-input h-12"
+                          onChange={(e) => {
+                            field.onChange(e);
+                            // Validación instantánea de email
+                            const email = e.target.value;
+                            if (email && email.length > 0) {
+                              const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                              if (!emailRegex.test(email)) {
+                                form.setError("email", {
+                                  type: "manual",
+                                  message: "Email inválido - debe contener @ y formato válido"
+                                });
+                              } else {
+                                form.clearErrors("email");
+                              }
+                            }
+                          }}
                         />
                       </FormControl>
                       <FormMessage />
