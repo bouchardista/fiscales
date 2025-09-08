@@ -864,6 +864,54 @@ export default function RegistrationForm() {
                                   e.preventDefault();
                                 }
                               }}
+                              onChange={(e) => {
+                                field.onChange(e);
+                                // Validación instantánea de fecha de nacimiento
+                                const diaNacimiento = e.target.value;
+                                const mesNacimiento = form.getValues("mesNacimiento");
+                                const anoNacimiento = form.getValues("anoNacimiento");
+                                
+                                if (diaNacimiento && mesNacimiento && anoNacimiento && 
+                                    diaNacimiento.length > 0 && mesNacimiento.length > 0 && anoNacimiento.length === 4) {
+                                  
+                                  const dia = parseInt(diaNacimiento);
+                                  const mes = parseInt(mesNacimiento);
+                                  const ano = parseInt(anoNacimiento);
+                                  
+                                  // Verificar que sea una fecha válida
+                                  const fechaNacimiento = new Date(ano, mes - 1, dia);
+                                  if (fechaNacimiento.getDate() !== dia || fechaNacimiento.getMonth() !== mes - 1 || fechaNacimiento.getFullYear() !== ano) {
+                                    form.setError("diaNacimiento", {
+                                      type: "manual",
+                                      message: "Fecha de nacimiento inválida"
+                                    });
+                                    return;
+                                  }
+                                  
+                                  // Verificar que no sea una fecha futura
+                                  const hoy = new Date();
+                                  if (fechaNacimiento > hoy) {
+                                    form.setError("diaNacimiento", {
+                                      type: "manual",
+                                      message: "La fecha de nacimiento no puede ser futura"
+                                    });
+                                    return;
+                                  }
+                                  
+                                  // Verificar que no sea nacido del 1 de enero de 2010 en adelante
+                                  const fechaLimite = new Date(2010, 0, 1);
+                                  if (fechaNacimiento >= fechaLimite) {
+                                    form.setError("diaNacimiento", {
+                                      type: "manual",
+                                      message: "Debes ser mayor de 14 años para registrarte (nacido antes del 1 de enero de 2010)"
+                                    });
+                                    return;
+                                  }
+                                  
+                                  // Si todo está bien, limpiar errores
+                                  form.clearErrors("diaNacimiento");
+                                }
+                              }}
                             />
                           </FormControl>
                           <FormMessage />
@@ -888,6 +936,54 @@ export default function RegistrationForm() {
                                   e.preventDefault();
                                 }
                               }}
+                              onChange={(e) => {
+                                field.onChange(e);
+                                // Validación instantánea de fecha de nacimiento
+                                const diaNacimiento = form.getValues("diaNacimiento");
+                                const mesNacimiento = e.target.value;
+                                const anoNacimiento = form.getValues("anoNacimiento");
+                                
+                                if (diaNacimiento && mesNacimiento && anoNacimiento && 
+                                    diaNacimiento.length > 0 && mesNacimiento.length > 0 && anoNacimiento.length === 4) {
+                                  
+                                  const dia = parseInt(diaNacimiento);
+                                  const mes = parseInt(mesNacimiento);
+                                  const ano = parseInt(anoNacimiento);
+                                  
+                                  // Verificar que sea una fecha válida
+                                  const fechaNacimiento = new Date(ano, mes - 1, dia);
+                                  if (fechaNacimiento.getDate() !== dia || fechaNacimiento.getMonth() !== mes - 1 || fechaNacimiento.getFullYear() !== ano) {
+                                    form.setError("diaNacimiento", {
+                                      type: "manual",
+                                      message: "Fecha de nacimiento inválida"
+                                    });
+                                    return;
+                                  }
+                                  
+                                  // Verificar que no sea una fecha futura
+                                  const hoy = new Date();
+                                  if (fechaNacimiento > hoy) {
+                                    form.setError("diaNacimiento", {
+                                      type: "manual",
+                                      message: "La fecha de nacimiento no puede ser futura"
+                                    });
+                                    return;
+                                  }
+                                  
+                                  // Verificar que no sea nacido del 1 de enero de 2010 en adelante
+                                  const fechaLimite = new Date(2010, 0, 1);
+                                  if (fechaNacimiento >= fechaLimite) {
+                                    form.setError("diaNacimiento", {
+                                      type: "manual",
+                                      message: "Debes ser mayor de 14 años para registrarte (nacido antes del 1 de enero de 2010)"
+                                    });
+                                    return;
+                                  }
+                                  
+                                  // Si todo está bien, limpiar errores
+                                  form.clearErrors("diaNacimiento");
+                                }
+                              }}
                             />
                           </FormControl>
                           <FormMessage />
@@ -910,6 +1006,54 @@ export default function RegistrationForm() {
                                 // Solo permitir números, backspace, delete, tab, escape, enter
                                 if (!/[0-9]/.test(e.key) && !['Backspace', 'Delete', 'Tab', 'Escape', 'Enter', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
                                   e.preventDefault();
+                                }
+                              }}
+                              onChange={(e) => {
+                                field.onChange(e);
+                                // Validación instantánea de fecha de nacimiento
+                                const diaNacimiento = form.getValues("diaNacimiento");
+                                const mesNacimiento = form.getValues("mesNacimiento");
+                                const anoNacimiento = e.target.value;
+                                
+                                if (diaNacimiento && mesNacimiento && anoNacimiento && 
+                                    diaNacimiento.length > 0 && mesNacimiento.length > 0 && anoNacimiento.length === 4) {
+                                  
+                                  const dia = parseInt(diaNacimiento);
+                                  const mes = parseInt(mesNacimiento);
+                                  const ano = parseInt(anoNacimiento);
+                                  
+                                  // Verificar que sea una fecha válida
+                                  const fechaNacimiento = new Date(ano, mes - 1, dia);
+                                  if (fechaNacimiento.getDate() !== dia || fechaNacimiento.getMonth() !== mes - 1 || fechaNacimiento.getFullYear() !== ano) {
+                                    form.setError("diaNacimiento", {
+                                      type: "manual",
+                                      message: "Fecha de nacimiento inválida"
+                                    });
+                                    return;
+                                  }
+                                  
+                                  // Verificar que no sea una fecha futura
+                                  const hoy = new Date();
+                                  if (fechaNacimiento > hoy) {
+                                    form.setError("diaNacimiento", {
+                                      type: "manual",
+                                      message: "La fecha de nacimiento no puede ser futura"
+                                    });
+                                    return;
+                                  }
+                                  
+                                  // Verificar que no sea nacido del 1 de enero de 2010 en adelante
+                                  const fechaLimite = new Date(2010, 0, 1);
+                                  if (fechaNacimiento >= fechaLimite) {
+                                    form.setError("diaNacimiento", {
+                                      type: "manual",
+                                      message: "Debes ser mayor de 14 años para registrarte (nacido antes del 1 de enero de 2010)"
+                                    });
+                                    return;
+                                  }
+                                  
+                                  // Si todo está bien, limpiar errores
+                                  form.clearErrors("diaNacimiento");
                                 }
                               }}
                             />
