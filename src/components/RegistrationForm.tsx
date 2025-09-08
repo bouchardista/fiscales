@@ -75,7 +75,7 @@ const formSchema = z.object({
   message: "Barrio requerido para Córdoba Capital y OTROS",
   path: ["barrio"],
 }).refine((data) => {
-  // Validar que la fecha de nacimiento no sea futura
+  // Validar que la fecha de nacimiento no sea futura y que sea mayor de 14 años
   if (data.diaNacimiento && data.mesNacimiento && data.anoNacimiento) {
     const dia = parseInt(data.diaNacimiento);
     const mes = parseInt(data.mesNacimiento);
@@ -89,11 +89,21 @@ const formSchema = z.object({
     
     // Verificar que no sea una fecha futura
     const hoy = new Date();
-    return fechaNacimiento <= hoy;
+    if (fechaNacimiento > hoy) {
+      return false;
+    }
+    
+    // Verificar que no sea nacido del 1 de enero de 2010 en adelante (menor de 14 años)
+    const fechaLimite = new Date(2010, 0, 1); // 1 de enero de 2010
+    if (fechaNacimiento >= fechaLimite) {
+      return false;
+    }
+    
+    return true;
   }
   return true;
 }, {
-  message: "La fecha de nacimiento debe ser válida y no puede ser futura",
+  message: "Debes ser mayor de 14 años para registrarte (nacido antes del 1 de enero de 2010)",
   path: ["diaNacimiento"],
 });
 
@@ -285,6 +295,7 @@ export default function RegistrationForm() {
   */
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    console.log("🚀 onSubmit ejecutándose...");
     try {
       // Limpiar mensajes anteriores
       setSubmitMessage(null);
@@ -407,7 +418,13 @@ export default function RegistrationForm() {
       <div className="max-w-2xl mx-auto">
         <Card className="p-8 border-2 border-primary/20 rounded-3xl bg-card shadow-lg">
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <form onSubmit={form.handleSubmit(
+              onSubmit,
+              (errors) => {
+                console.log("❌ Errores de validación:", errors);
+                console.log("❌ Formulario no válido, no se puede enviar");
+              }
+            )} className="space-y-6">
               {/* Primera fila: Nombre y Apellido */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <FormField
@@ -536,7 +553,19 @@ export default function RegistrationForm() {
                       name="codigoPais"
                       render={({ field }) => (
                         <FormItem>
-                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <Select onValueChange={(value) => {
+                            field.onChange(value);
+                            // Validación instantánea de código de país
+                            const confirmarCodigoPais = form.getValues("confirmarCodigoPais");
+                            if (confirmarCodigoPais && confirmarCodigoPais !== value) {
+                              form.setError("codigoPais", {
+                                type: "manual",
+                                message: "Los códigos de país deben ser iguales"
+                              });
+                            } else if (confirmarCodigoPais && confirmarCodigoPais === value) {
+                              form.clearErrors("codigoPais");
+                            }
+                          }} defaultValue={field.value}>
                             <FormControl>
                               <SelectTrigger className="w-12 rounded-xl border-border bg-input h-12">
                                 <SelectValue />
