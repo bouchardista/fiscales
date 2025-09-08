@@ -1209,6 +1209,7 @@ export default function RegistrationForm() {
                                     onClick={() => {
                                       form.setValue("ciudad", localidad.id.toString());
                                       form.setValue("barrio", ""); // Limpiar barrio al cambiar ciudad
+                                      form.setValue("ciudadOtros", ""); // Limpiar campo de ciudad otros
                                       setLocalidadOpen(false);
                                     }}
                                   >
@@ -1237,6 +1238,7 @@ export default function RegistrationForm() {
                                 onClick={() => {
                                   form.setValue("ciudad", "999"); // ID especial para OTROS
                                   form.setValue("barrio", ""); // Limpiar barrio al cambiar ciudad
+                                  form.setValue("barrioOtros", ""); // Limpiar campo de barrio otros
                                   setLocalidadOpen(false);
                                 }}
                               >
@@ -1361,6 +1363,7 @@ export default function RegistrationForm() {
                                     className="flex items-center px-2 py-2 hover:bg-accent hover:text-accent-foreground cursor-pointer rounded-sm"
                                     onClick={() => {
                                       form.setValue("barrio", barrio.id.toString());
+                                      form.setValue("barrioOtros", ""); // Limpiar campo de barrio otros
                                       setBarrioOpen(false);
                                     }}
                                   >
