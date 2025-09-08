@@ -163,23 +163,23 @@ export default function RegistrationForm() {
     }
   }, [ciudadSeleccionada, form]);
 
-  // Sincronizar códigos de país
+  // Validar códigos de país (sin sincronización automática)
   const codigoPais = form.watch("codigoPais");
   const confirmarCodigoPais = form.watch("confirmarCodigoPais");
   
   useEffect(() => {
-    // Si cambia el código de país principal, actualizar el de confirmación
-    if (codigoPais && codigoPais !== confirmarCodigoPais) {
-      form.setValue("confirmarCodigoPais", codigoPais);
+    // Validar coincidencia de códigos de país en tiempo real
+    if (confirmarCodigoPais && confirmarCodigoPais.length > 0) {
+      if (codigoPais && codigoPais !== confirmarCodigoPais) {
+        form.setError("confirmarCodigoPais", {
+          type: "manual",
+          message: "Los códigos de país deben ser iguales"
+        });
+      } else if (codigoPais && codigoPais === confirmarCodigoPais) {
+        form.clearErrors("confirmarCodigoPais");
+      }
     }
-  }, [codigoPais, form]);
-  
-  useEffect(() => {
-    // Si cambia el código de país de confirmación, actualizar el principal
-    if (confirmarCodigoPais && confirmarCodigoPais !== codigoPais) {
-      form.setValue("codigoPais", confirmarCodigoPais);
-    }
-  }, [confirmarCodigoPais, form]);
+  }, [codigoPais, confirmarCodigoPais, form]);
 
   // Validaciones instantáneas para DNI
   const dni = form.watch("dni");
@@ -625,7 +625,19 @@ export default function RegistrationForm() {
                       name="confirmarCodigoPais"
                       render={({ field }) => (
                         <FormItem>
-                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <Select onValueChange={(value) => {
+                            field.onChange(value);
+                            // Validación instantánea de código de país
+                            const codigoPais = form.getValues("codigoPais");
+                            if (codigoPais && codigoPais !== value) {
+                              form.setError("confirmarCodigoPais", {
+                                type: "manual",
+                                message: "Los códigos de país deben ser iguales"
+                              });
+                            } else if (codigoPais && codigoPais === value) {
+                              form.clearErrors("confirmarCodigoPais");
+                            }
+                          }} defaultValue={field.value}>
                             <FormControl>
                               <SelectTrigger className="w-12 rounded-xl border-border bg-input h-12">
                                 <SelectValue />
