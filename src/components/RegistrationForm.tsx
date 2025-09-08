@@ -674,6 +674,35 @@ export default function RegistrationForm() {
                                   e.preventDefault();
                                 }
                               }}
+                              onChange={(e) => {
+                                field.onChange(e);
+                                // Validación instantánea de área celular
+                                const areaCelular = form.getValues("areaCelular");
+                                const numeroCelular = form.getValues("numeroCelular");
+                                const confirmarAreaCelular = e.target.value;
+                                const confirmarNumeroCelular = form.getValues("confirmarNumeroCelular");
+                                
+                                // Validar si hay suficiente contenido para comparar
+                                if (confirmarAreaCelular && confirmarAreaCelular.length > 0 && 
+                                    areaCelular && areaCelular.length > 0) {
+                                  if (areaCelular !== confirmarAreaCelular) {
+                                    form.setError("confirmarNumeroCelular", {
+                                      type: "manual",
+                                      message: "Los números de celular no coinciden"
+                                    });
+                                  } else {
+                                    // Solo limpiar error si también coinciden los números
+                                    if (confirmarNumeroCelular && numeroCelular && 
+                                        confirmarNumeroCelular.length > 0 && numeroCelular.length > 0) {
+                                      if (numeroCelular === confirmarNumeroCelular) {
+                                        form.clearErrors("confirmarNumeroCelular");
+                                      }
+                                    } else {
+                                      form.clearErrors("confirmarNumeroCelular");
+                                    }
+                                  }
+                                }
+                              }}
                             />
                           </FormControl>
                           <FormMessage />
@@ -705,15 +734,24 @@ export default function RegistrationForm() {
                                 const confirmarAreaCelular = form.getValues("confirmarAreaCelular");
                                 const confirmarNumeroCelular = e.target.value;
                                 
-                                if (confirmarAreaCelular && confirmarNumeroCelular && 
-                                    confirmarAreaCelular.length > 0 && confirmarNumeroCelular.length > 0) {
-                                  if (areaCelular !== confirmarAreaCelular || numeroCelular !== confirmarNumeroCelular) {
+                                // Validar si hay suficiente contenido para comparar
+                                if (confirmarNumeroCelular && confirmarNumeroCelular.length > 0 && 
+                                    numeroCelular && numeroCelular.length > 0) {
+                                  if (numeroCelular !== confirmarNumeroCelular) {
                                     form.setError("confirmarNumeroCelular", {
                                       type: "manual",
                                       message: "Los números de celular no coinciden"
                                     });
                                   } else {
-                                    form.clearErrors("confirmarNumeroCelular");
+                                    // Solo limpiar error si también coinciden las áreas
+                                    if (confirmarAreaCelular && areaCelular && 
+                                        confirmarAreaCelular.length > 0 && areaCelular.length > 0) {
+                                      if (areaCelular === confirmarAreaCelular) {
+                                        form.clearErrors("confirmarNumeroCelular");
+                                      }
+                                    } else {
+                                      form.clearErrors("confirmarNumeroCelular");
+                                    }
                                   }
                                 }
                               }}
