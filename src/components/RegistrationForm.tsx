@@ -93,8 +93,8 @@ const formSchema = z.object({
       return false;
     }
     
-    // Verificar que no sea nacido del 1 de enero de 2010 en adelante (menor de 14 años)
-    const fechaLimite = new Date(2010, 0, 1); // 1 de enero de 2010
+    // Verificar que no sea nacido del 1 de enero de 2006 en adelante (menor de 18 años)
+    const fechaLimite = new Date(2006, 0, 1); // 1 de enero de 2006
     if (fechaNacimiento >= fechaLimite) {
       return false;
     }
@@ -103,7 +103,7 @@ const formSchema = z.object({
   }
   return true;
 }, {
-  message: "Debes ser mayor de 14 años para registrarte (nacido antes del 1 de enero de 2010)",
+  message: "Debes ser mayor de 18 años para registrarte (nacido antes del 1 de enero de 2006)",
   path: ["diaNacimiento"],
 });
 
@@ -898,12 +898,12 @@ export default function RegistrationForm() {
                                     return;
                                   }
                                   
-                                  // Verificar que no sea nacido del 1 de enero de 2010 en adelante
-                                  const fechaLimite = new Date(2010, 0, 1);
+                                  // Verificar que no sea nacido del 1 de enero de 2006 en adelante
+                                  const fechaLimite = new Date(2006, 0, 1);
                                   if (fechaNacimiento >= fechaLimite) {
                                     form.setError("diaNacimiento", {
                                       type: "manual",
-                                      message: "Debes ser mayor de 14 años para registrarte (nacido antes del 1 de enero de 2010)"
+                                      message: "Debes ser mayor de 18 años para registrarte (nacido antes del 1 de enero de 2006)"
                                     });
                                     return;
                                   }
@@ -970,12 +970,12 @@ export default function RegistrationForm() {
                                     return;
                                   }
                                   
-                                  // Verificar que no sea nacido del 1 de enero de 2010 en adelante
-                                  const fechaLimite = new Date(2010, 0, 1);
+                                  // Verificar que no sea nacido del 1 de enero de 2006 en adelante
+                                  const fechaLimite = new Date(2006, 0, 1);
                                   if (fechaNacimiento >= fechaLimite) {
                                     form.setError("diaNacimiento", {
                                       type: "manual",
-                                      message: "Debes ser mayor de 14 años para registrarte (nacido antes del 1 de enero de 2010)"
+                                      message: "Debes ser mayor de 18 años para registrarte (nacido antes del 1 de enero de 2006)"
                                     });
                                     return;
                                   }
@@ -1042,12 +1042,12 @@ export default function RegistrationForm() {
                                     return;
                                   }
                                   
-                                  // Verificar que no sea nacido del 1 de enero de 2010 en adelante
-                                  const fechaLimite = new Date(2010, 0, 1);
+                                  // Verificar que no sea nacido del 1 de enero de 2006 en adelante
+                                  const fechaLimite = new Date(2006, 0, 1);
                                   if (fechaNacimiento >= fechaLimite) {
                                     form.setError("diaNacimiento", {
                                       type: "manual",
-                                      message: "Debes ser mayor de 14 años para registrarte (nacido antes del 1 de enero de 2010)"
+                                      message: "Debes ser mayor de 18 años para registrarte (nacido antes del 1 de enero de 2006)"
                                     });
                                     return;
                                   }
