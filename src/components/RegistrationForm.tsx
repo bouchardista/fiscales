@@ -1251,6 +1251,14 @@ export default function RegistrationForm() {
                     // Si es OTROS, agregar la opción OTROS a los barrios disponibles
                     const barriosFinales = esOtros ? [{ id: 999, nombre: "OTROS" }] : barriosDisponibles;
                     
+                    // Debug: verificar valores
+                    console.log("Debug barrio:", {
+                      ciudadSeleccionada,
+                      esOtros,
+                      barriosFinales,
+                      fieldValue: field.value
+                    });
+                    
                     return (
                       <FormItem>
                         <FormLabel className="text-foreground font-medium">
@@ -1273,7 +1281,7 @@ export default function RegistrationForm() {
                                 )}
                             >
                               {field.value
-                                ? barriosFinales.find((barrio) => barrio.id.toString() === field.value)?.nombre
+                                ? barriosFinales.find((barrio) => barrio.id.toString() === field.value)?.nombre || "OTROS"
                                 : ciudadSeleccionada 
                                   ? esOtros
                                     ? "No hay barrios disponibles"
