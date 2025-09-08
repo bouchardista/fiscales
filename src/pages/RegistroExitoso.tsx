@@ -116,7 +116,7 @@ export default function RegistroExitoso() {
             </div>
           </div>
           <p className="text-sm opacity-80">
-            © 2025 Alianza La Libertad Avanza Córdoba. Todos los derechos reservados.
+            © 2025 La Libertad Avanza Córdoba. Todos los derechos reservados.
           </p>
         </div>
       </footer>
