@@ -47,9 +47,9 @@ const formSchema = z.object({
     .min(4, "Año requerido")
     .regex(/^(19|20)\d{2}$/, "Año inválido (1900-2099)"),
   ciudad: z.string().min(1, "Localidad requerida"),
-  ciudadOtros: z.string().optional(),
+  ciudadOtros: z.string().min(1, "Debe especificar el nombre de la localidad"),
   barrio: z.string().optional(),
-  barrioOtros: z.string().optional(),
+  barrioOtros: z.string().min(1, "Debe especificar el nombre del barrio"),
   sexo: z.string().min(1, "Sexo requerido"),
   captcha: z.string().min(1, "Debe completar el captcha"),
   aceptarTerminos: z.boolean().refine((val) => val === true, {
