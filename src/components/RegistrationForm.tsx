@@ -418,6 +418,37 @@ export default function RegistrationForm() {
     } catch (error) {
       console.error("Error al enviar el formulario:", error);
       
+      // Verificar si es un error de registro duplicado
+      if (error instanceof Error) {
+        const errorMessage = error.message.toLowerCase();
+        
+        // Si es un registro duplicado, mostrar mensaje de éxito pero no enviar a BD
+        if (errorMessage.includes('duplicado') || 
+            errorMessage.includes('ya existe') || 
+            errorMessage.includes('already exists') ||
+            errorMessage.includes('dni ya registrado') ||
+            errorMessage.includes('email ya registrado')) {
+          
+          console.log("✅ Registro duplicado detectado, mostrando mensaje de éxito");
+          
+          // Resetear reCAPTCHA
+          if (recaptchaRef.current) {
+            recaptchaRef.current.reset();
+          }
+          
+          // Limpiar formulario
+          form.reset();
+          
+          // Redirigir a la página de éxito con el nombre del fiscal
+          const nombreFiscal = values.nombre;
+          const urlExito = `/registro-exitoso?nombre=${encodeURIComponent(nombreFiscal)}`;
+          console.log("🚀 Redirigiendo a página de éxito (registro duplicado):", urlExito);
+          navigate(urlExito);
+          
+          return; // Salir sin mostrar error
+        }
+      }
+      
       let errorMessage = "Error al enviar el formulario. Por favor, inténtalo de nuevo.";
       
       // Mostrar error específico del reCAPTCHA si es necesario
