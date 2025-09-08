@@ -825,7 +825,7 @@ export default function RegistrationForm() {
                   
                   {/* Mensaje de error personalizado para códigos de país que ocupa todo el ancho */}
                   {form.formState.errors.codigoPais && (
-                    <div className="mt-2">
+                    <div className="col-span-full mt-2">
                       <p className="text-sm font-medium text-destructive">
                         {form.formState.errors.codigoPais.message}
                       </p>
@@ -876,7 +876,6 @@ export default function RegistrationForm() {
                           }}
                         />
                       </FormControl>
-                      <FormMessage />
                     </FormItem>
                   )}
                 />
@@ -1119,6 +1118,15 @@ export default function RegistrationForm() {
                   </div>
                 </div>
               </div>
+              
+              {/* Mensaje de error personalizado para email que ocupa todo el ancho */}
+              {form.formState.errors.email && (
+                <div className="col-span-full mt-2">
+                  <p className="text-sm font-medium text-destructive">
+                    {form.formState.errors.email.message}
+                  </p>
+                </div>
+              )}
               
               {/* Mensaje de error personalizado para edad que ocupa todo el ancho */}
               {form.formState.errors.diaNacimiento && (
