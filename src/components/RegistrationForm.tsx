@@ -957,7 +957,6 @@ export default function RegistrationForm() {
                               }}
                             />
                           </FormControl>
-                          <FormMessage />
                         </FormItem>
                       )}
                     />
@@ -1036,7 +1035,6 @@ export default function RegistrationForm() {
                               }}
                             />
                           </FormControl>
-                          <FormMessage />
                         </FormItem>
                       )}
                     />
