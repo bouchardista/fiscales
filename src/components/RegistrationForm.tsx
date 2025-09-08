@@ -822,15 +822,6 @@ export default function RegistrationForm() {
                       )}
                     />
                   </div>
-                  
-                  {/* Mensaje de error personalizado para códigos de país que ocupa todo el ancho */}
-                  {form.formState.errors.codigoPais && (
-                    <div className="col-span-full mt-2">
-                      <p className="text-sm font-medium text-destructive">
-                        {form.formState.errors.codigoPais.message}
-                      </p>
-                    </div>
-                  )}
                 </div>
               </div>
               
@@ -839,6 +830,15 @@ export default function RegistrationForm() {
                 <div className="col-span-full mt-2">
                   <p className="text-sm font-medium text-destructive">
                     {form.formState.errors.areaCelular.message}
+                  </p>
+                </div>
+              )}
+              
+              {/* Mensaje de error personalizado para códigos de país que ocupa todo el ancho */}
+              {form.formState.errors.codigoPais && (
+                <div className="col-span-full mt-2">
+                  <p className="text-sm font-medium text-destructive">
+                    {form.formState.errors.codigoPais.message}
                   </p>
                 </div>
               )}
