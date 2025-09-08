@@ -1245,11 +1245,11 @@ export default function RegistrationForm() {
                     const ciudadSeleccionada = form.watch("ciudad");
                     const nombreLocalidad = localidades.find((localidad) => localidad.id.toString() === ciudadSeleccionada)?.nombre;
                     const barriosDisponibles = nombreLocalidad && nombreLocalidad !== "OTROS" ? barriosPorCiudad[nombreLocalidad as keyof typeof barriosPorCiudad] || [] : [];
-                    const esBarrioRequerido = nombreLocalidad === "CORDOBA CAPITAL" || nombreLocalidad === "OTROS";
+                    const esBarrioRequerido = nombreLocalidad === "CORDOBA CAPITAL";
                     const esOtros = ciudadSeleccionada === "999"; // ID especial para OTROS
                     
-                    // Si es OTROS, agregar la opción OTROS a los barrios disponibles
-                    const barriosFinales = esOtros ? [{ id: 999, nombre: "OTROS" }] : barriosDisponibles;
+                    // Usar barrios disponibles directamente
+                    const barriosFinales = barriosDisponibles;
                     
                     return (
                       <FormItem>
@@ -1265,18 +1265,18 @@ export default function RegistrationForm() {
                             <Button
                               variant="outline"
                               role="combobox"
-                              disabled={!ciudadSeleccionada || (!esBarrioRequerido && !esOtros)}
+                              disabled={!ciudadSeleccionada || !esBarrioRequerido}
                               className={cn(
                                   "w-full justify-between rounded-xl border-border bg-input h-12",
                                   !field.value && "text-muted-foreground",
-                                  (!ciudadSeleccionada || (!esBarrioRequerido && !esOtros)) && "opacity-50 cursor-not-allowed"
+                                  (!ciudadSeleccionada || !esBarrioRequerido) && "opacity-50 cursor-not-allowed"
                                 )}
                             >
                               {field.value
                                 ? barriosFinales.find((barrio) => barrio.id.toString() === field.value)?.nombre
                                 : ciudadSeleccionada 
                                   ? esOtros
-                                    ? "Selecciona tu barrio"
+                                    ? "No hay barrios disponibles"
                                     : barriosDisponibles.length > 0 
                                       ? "Selecciona tu barrio" 
                                       : "No hay barrios disponibles"
