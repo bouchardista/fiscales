@@ -47,7 +47,9 @@ const formSchema = z.object({
     .min(4, "Año requerido")
     .regex(/^(19|20)\d{2}$/, "Año inválido (1900-2099)"),
   ciudad: z.string().min(1, "Localidad requerida"),
+  ciudadOtros: z.string().optional(),
   barrio: z.string().optional(),
+  barrioOtros: z.string().optional(),
   sexo: z.string().min(1, "Sexo requerido"),
   captcha: z.string().min(1, "Debe completar el captcha"),
   aceptarTerminos: z.boolean().refine((val) => val === true, {
@@ -112,6 +114,24 @@ const formSchema = z.object({
 }, {
   message: "Debes tener 18 años cumplidos al 26 de octubre de 2025 para ser fiscal", 
   path: ["diaNacimiento"],
+}).refine((data) => {
+  // Si la ciudad es "999" (OTROS), entonces ciudadOtros es requerido
+  if (data.ciudad === "999") {
+    return data.ciudadOtros && data.ciudadOtros.trim().length > 0;
+  }
+  return true;
+}, {
+  message: "Debe especificar el nombre de la localidad",
+  path: ["ciudadOtros"],
+}).refine((data) => {
+  // Si el barrio es "999" (OTROS), entonces barrioOtros es requerido
+  if (data.barrio === "999") {
+    return data.barrioOtros && data.barrioOtros.trim().length > 0;
+  }
+  return true;
+}, {
+  message: "Debe especificar el nombre del barrio",
+  path: ["barrioOtros"],
 });
 
 
@@ -1238,6 +1258,36 @@ export default function RegistrationForm() {
                     </FormItem>
                   )}
                 />
+                
+                {/* Campo para especificar localidad cuando se selecciona "Otros" */}
+                {form.watch("ciudad") === "999" && (
+                  <FormField
+                    control={form.control}
+                    name="ciudadOtros"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-foreground font-medium">
+                          Especificar localidad*
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            {...field}
+                            placeholder="Ingrese el nombre de su localidad"
+                            className="rounded-xl border-border bg-input h-12"
+                            onKeyDown={(e) => {
+                              // Solo permitir letras, espacios, guiones y acentos
+                              if (!/[a-zA-ZáéíóúÁÉÍÓÚñÑ\s\-]/.test(e.key) && !['Backspace', 'Delete', 'Tab', 'Enter', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                                e.preventDefault();
+                              }
+                            }}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                )}
+                
                 <FormField
                   control={form.control}
                   name="barrio"
@@ -1363,6 +1413,35 @@ export default function RegistrationForm() {
                     );
                   }}
                 />
+                
+                {/* Campo para especificar barrio cuando se selecciona "Otros" */}
+                {form.watch("barrio") === "999" && (
+                  <FormField
+                    control={form.control}
+                    name="barrioOtros"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-foreground font-medium">
+                          Especificar barrio*
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            {...field}
+                            placeholder="Ingrese el nombre de su barrio"
+                            className="rounded-xl border-border bg-input h-12"
+                            onKeyDown={(e) => {
+                              // Solo permitir letras, espacios, guiones y acentos
+                              if (!/[a-zA-ZáéíóúÁÉÍÓÚñÑ\s\-]/.test(e.key) && !['Backspace', 'Delete', 'Tab', 'Enter', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                                e.preventDefault();
+                              }
+                            }}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                )}
               </div>
 
               {/* Sexo */}
