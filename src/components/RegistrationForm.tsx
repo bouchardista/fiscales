@@ -188,14 +188,10 @@ export default function RegistrationForm() {
     // Validar coincidencia de códigos de país en tiempo real
     if (confirmarCodigoPais && confirmarCodigoPais.length > 0) {
       if (codigoPais && codigoPais !== confirmarCodigoPais) {
-        const errorMessage = "Los códigos de país deben ser iguales";
-        form.setError("confirmarCodigoPais", {
-          type: "manual",
-          message: errorMessage
-        });
+        // Mostrar error en el campo codigoPais para que aparezca en el mensaje personalizado
         form.setError("codigoPais", {
           type: "manual",
-          message: errorMessage
+          message: "Los códigos de país deben ser iguales"
         });
       } else if (codigoPais && codigoPais === confirmarCodigoPais) {
         form.clearErrors("confirmarCodigoPais");
@@ -238,22 +234,10 @@ export default function RegistrationForm() {
     if (confirmarAreaCelular && confirmarNumeroCelular && 
         confirmarAreaCelular.length > 0 && confirmarNumeroCelular.length > 0) {
       if (areaCelular !== confirmarAreaCelular || numeroCelular !== confirmarNumeroCelular) {
-        const errorMessage = "Los números de celular no coinciden";
-        form.setError("confirmarNumeroCelular", {
-          type: "manual",
-          message: errorMessage
-        });
-        form.setError("confirmarAreaCelular", {
-          type: "manual",
-          message: errorMessage
-        });
-        form.setError("numeroCelular", {
-          type: "manual",
-          message: errorMessage
-        });
+        // Mostrar error en el campo areaCelular para que aparezca en el mensaje personalizado
         form.setError("areaCelular", {
           type: "manual",
-          message: errorMessage
+          message: "Los números de celular no coinciden"
         });
       } else {
         form.clearErrors("confirmarNumeroCelular");
@@ -580,7 +564,7 @@ export default function RegistrationForm() {
               {/* Tercera fila: Celular */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
                 <div>
-                                        <FormLabel className="text-foreground font-medium">Celular*</FormLabel>
+                  <FormLabel className="text-foreground font-medium">Celular*</FormLabel>
                   <div className="flex gap-2 mt-2">
                     <FormField
                       control={form.control}
@@ -592,14 +576,9 @@ export default function RegistrationForm() {
                             // Validación instantánea de código de país
                             const confirmarCodigoPais = form.getValues("confirmarCodigoPais");
                             if (confirmarCodigoPais && confirmarCodigoPais !== value) {
-                              const errorMessage = "Los códigos de país deben ser iguales";
                               form.setError("codigoPais", {
                                 type: "manual",
-                                message: errorMessage
-                              });
-                              form.setError("confirmarCodigoPais", {
-                                type: "manual",
-                                message: errorMessage
+                                message: "Los códigos de país deben ser iguales"
                               });
                             } else if (confirmarCodigoPais && confirmarCodigoPais === value) {
                               form.clearErrors("codigoPais");
@@ -699,14 +678,9 @@ export default function RegistrationForm() {
                             // Validación instantánea de código de país
                             const codigoPais = form.getValues("codigoPais");
                             if (codigoPais && codigoPais !== value) {
-                              const errorMessage = "Los códigos de país deben ser iguales";
-                              form.setError("confirmarCodigoPais", {
-                                type: "manual",
-                                message: errorMessage
-                              });
                               form.setError("codigoPais", {
                                 type: "manual",
-                                message: errorMessage
+                                message: "Los códigos de país deben ser iguales"
                               });
                             } else if (codigoPais && codigoPais === value) {
                               form.clearErrors("confirmarCodigoPais");
@@ -852,6 +826,24 @@ export default function RegistrationForm() {
                   <FormMessage />
                 </div>
               </div>
+              
+              {/* Mensaje de error personalizado para celular que ocupa todo el ancho */}
+              {form.formState.errors.areaCelular && (
+                <div className="col-span-full">
+                  <p className="text-sm font-medium text-destructive">
+                    {form.formState.errors.areaCelular.message}
+                  </p>
+                </div>
+              )}
+              
+              {/* Mensaje de error personalizado para códigos de país que ocupa todo el ancho */}
+              {form.formState.errors.codigoPais && (
+                <div className="col-span-full">
+                  <p className="text-sm font-medium text-destructive">
+                    {form.formState.errors.codigoPais.message}
+                  </p>
+                </div>
+              )}
 
               {/* Cuarta fila: Email y Fecha de nacimiento */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
