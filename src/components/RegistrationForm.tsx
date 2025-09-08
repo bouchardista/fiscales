@@ -557,7 +557,7 @@ export default function RegistrationForm() {
               
               {/* Mensaje de error personalizado para DNI que ocupa todo el ancho */}
               {form.formState.errors.dni && (
-                <div className="mt-2">
+                <div className="col-span-full mt-2">
                   <p className="text-sm font-medium text-destructive">
                     {form.formState.errors.dni.message}
                   </p>
@@ -836,7 +836,7 @@ export default function RegistrationForm() {
               
               {/* Mensaje de error personalizado para celular que ocupa todo el ancho */}
               {form.formState.errors.areaCelular && (
-                <div className="mt-2">
+                <div className="col-span-full mt-2">
                   <p className="text-sm font-medium text-destructive">
                     {form.formState.errors.areaCelular.message}
                   </p>
@@ -1115,13 +1115,21 @@ export default function RegistrationForm() {
                               }}
                             />
                           </FormControl>
-                          <FormMessage />
                         </FormItem>
                       )}
                     />
                   </div>
                 </div>
               </div>
+              
+              {/* Mensaje de error personalizado para edad que ocupa todo el ancho */}
+              {form.formState.errors.diaNacimiento && (
+                <div className="col-span-full mt-2">
+                  <p className="text-sm font-medium text-destructive">
+                    {form.formState.errors.diaNacimiento.message}
+                  </p>
+                </div>
+              )}
 
               {/* Quinta fila: Ciudad y Barrio */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
