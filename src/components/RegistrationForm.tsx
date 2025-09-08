@@ -118,6 +118,8 @@ export default function RegistrationForm() {
   
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
+    mode: "onChange", // Habilitar validaciones en tiempo real
+    reValidateMode: "onChange", // Re-validar en cada cambio
     defaultValues: {
       codigoPais: "+54",
       confirmarCodigoPais: "+54",
@@ -178,6 +180,60 @@ export default function RegistrationForm() {
       form.setValue("codigoPais", confirmarCodigoPais);
     }
   }, [confirmarCodigoPais, form]);
+
+  // Validaciones instantáneas para DNI
+  const dni = form.watch("dni");
+  const confirmarDni = form.watch("confirmarDni");
+  
+  useEffect(() => {
+    // Validar coincidencia de DNI en tiempo real
+    if (dni && confirmarDni && dni !== confirmarDni) {
+      form.setError("confirmarDni", {
+        type: "manual",
+        message: "Los DNI no coinciden"
+      });
+    } else if (dni && confirmarDni && dni === confirmarDni) {
+      form.clearErrors("confirmarDni");
+    }
+  }, [dni, confirmarDni, form]);
+
+  // Validaciones instantáneas para celular
+  const areaCelular = form.watch("areaCelular");
+  const numeroCelular = form.watch("numeroCelular");
+  const confirmarAreaCelular = form.watch("confirmarAreaCelular");
+  const confirmarNumeroCelular = form.watch("confirmarNumeroCelular");
+  
+  useEffect(() => {
+    // Validar coincidencia de celular en tiempo real
+    if (areaCelular && numeroCelular && confirmarAreaCelular && confirmarNumeroCelular) {
+      if (areaCelular !== confirmarAreaCelular || numeroCelular !== confirmarNumeroCelular) {
+        form.setError("confirmarNumeroCelular", {
+          type: "manual",
+          message: "Los números de celular no coinciden"
+        });
+      } else {
+        form.clearErrors("confirmarNumeroCelular");
+      }
+    }
+  }, [areaCelular, numeroCelular, confirmarAreaCelular, confirmarNumeroCelular, form]);
+
+  // Validación instantánea para email
+  const email = form.watch("email");
+  
+  useEffect(() => {
+    // Validar formato de email en tiempo real
+    if (email && email.length > 0) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        form.setError("email", {
+          type: "manual",
+          message: "Email inválido - debe contener @ y formato válido"
+        });
+      } else {
+        form.clearErrors("email");
+      }
+    }
+  }, [email, form]);
 
   // Cargar localidades y barrios desde la API al montar el componente
   // COMENTADO: Usando datos hardcodeados por ahora
