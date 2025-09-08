@@ -1243,10 +1243,10 @@ export default function RegistrationForm() {
                   name="barrio"
                   render={({ field }) => {
                     const ciudadSeleccionada = form.watch("ciudad");
-                    const nombreLocalidad = localidades.find((localidad) => localidad.id.toString() === ciudadSeleccionada)?.nombre;
+                    const esOtros = ciudadSeleccionada === "999"; // ID especial para OTROS
+                    const nombreLocalidad = esOtros ? "OTROS" : localidades.find((localidad) => localidad.id.toString() === ciudadSeleccionada)?.nombre;
                     const barriosDisponibles = nombreLocalidad && nombreLocalidad !== "OTROS" ? barriosPorCiudad[nombreLocalidad as keyof typeof barriosPorCiudad] || [] : [];
                     const esBarrioRequerido = nombreLocalidad === "CORDOBA CAPITAL";
-                    const esOtros = ciudadSeleccionada === "999"; // ID especial para OTROS
                     
                     // Usar barrios disponibles directamente
                     const barriosFinales = barriosDisponibles;
