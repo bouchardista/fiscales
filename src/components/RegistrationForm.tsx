@@ -560,6 +560,15 @@ export default function RegistrationForm() {
                   )}
                 />
               </div>
+              
+              {/* Mensaje de error personalizado para DNI que ocupa todo el ancho */}
+              {form.formState.errors.dni && (
+                <div className="mt-2">
+                  <p className="text-sm font-medium text-destructive">
+                    {form.formState.errors.dni.message}
+                  </p>
+                </div>
+              )}
 
               {/* Tercera fila: Celular */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
