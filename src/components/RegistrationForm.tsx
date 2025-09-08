@@ -61,6 +61,10 @@ const formSchema = z.object({
   data.numeroCelular === data.confirmarNumeroCelular, {
   message: "Los números de celular no coinciden",
   path: ["confirmarNumeroCelular"],
+}).refine((data) => 
+  data.codigoPais === data.confirmarCodigoPais, {
+  message: "Los códigos de país deben ser iguales",
+  path: ["confirmarCodigoPais"],
 }).refine((data) => {
   // Barrio es requerido solo si la localidad es CORDOBA CAPITAL o OTROS
   if (data.ciudad === "CORDOBA CAPITAL" || data.ciudad === "OTROS") {
@@ -156,6 +160,24 @@ export default function RegistrationForm() {
       form.setValue("barrio", "");
     }
   }, [ciudadSeleccionada, form]);
+
+  // Sincronizar códigos de país
+  const codigoPais = form.watch("codigoPais");
+  const confirmarCodigoPais = form.watch("confirmarCodigoPais");
+  
+  useEffect(() => {
+    // Si cambia el código de país principal, actualizar el de confirmación
+    if (codigoPais && codigoPais !== confirmarCodigoPais) {
+      form.setValue("confirmarCodigoPais", codigoPais);
+    }
+  }, [codigoPais, form]);
+  
+  useEffect(() => {
+    // Si cambia el código de país de confirmación, actualizar el principal
+    if (confirmarCodigoPais && confirmarCodigoPais !== codigoPais) {
+      form.setValue("codigoPais", confirmarCodigoPais);
+    }
+  }, [confirmarCodigoPais, form]);
 
   // Cargar localidades y barrios desde la API al montar el componente
   // COMENTADO: Usando datos hardcodeados por ahora
