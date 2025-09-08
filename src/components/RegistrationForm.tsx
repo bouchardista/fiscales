@@ -663,6 +663,15 @@ export default function RegistrationForm() {
                       )}
                     />
                   </div>
+                  
+                  {/* Mensaje de error personalizado para celular que ocupa todo el ancho */}
+                  {form.formState.errors.areaCelular && (
+                    <div className="mt-2">
+                      <p className="text-sm font-medium text-destructive">
+                        {form.formState.errors.areaCelular.message}
+                      </p>
+                    </div>
+                  )}
                 </div>
 
                 <div className="md:pl-0">
@@ -823,27 +832,17 @@ export default function RegistrationForm() {
                       )}
                     />
                   </div>
-                  <FormMessage />
+                  
+                  {/* Mensaje de error personalizado para códigos de país que ocupa todo el ancho */}
+                  {form.formState.errors.codigoPais && (
+                    <div className="mt-2">
+                      <p className="text-sm font-medium text-destructive">
+                        {form.formState.errors.codigoPais.message}
+                      </p>
+                    </div>
+                  )}
                 </div>
               </div>
-              
-              {/* Mensaje de error personalizado para celular que ocupa todo el ancho */}
-              {form.formState.errors.areaCelular && (
-                <div className="col-span-full">
-                  <p className="text-sm font-medium text-destructive">
-                    {form.formState.errors.areaCelular.message}
-                  </p>
-                </div>
-              )}
-              
-              {/* Mensaje de error personalizado para códigos de país que ocupa todo el ancho */}
-              {form.formState.errors.codigoPais && (
-                <div className="col-span-full">
-                  <p className="text-sm font-medium text-destructive">
-                    {form.formState.errors.codigoPais.message}
-                  </p>
-                </div>
-              )}
 
               {/* Cuarta fila: Email y Fecha de nacimiento */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
