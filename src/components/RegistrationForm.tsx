@@ -12,7 +12,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Card } from "@/components/ui/card";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Check, ChevronsUpDown, CheckCircle } from "lucide-react";
+import { Check, ChevronsUpDown, CheckCircle, AlertCircle, XCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import ReCAPTCHA from "react-google-recaptcha";
 import { RECAPTCHA_CONFIG } from "../config/recaptcha";
@@ -329,13 +329,9 @@ export default function RegistrationForm() {
   */
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log("🚀 onSubmit ejecutándose...");
     try {
-      // Limpiar mensajes anteriores
       setSubmitMessage(null);
       setIsSubmitting(true);
-      
-      console.log("Datos del formulario:", values);
       
       // Verificar que el reCAPTCHA esté completado
       if (!values.captcha) {
@@ -348,19 +344,16 @@ export default function RegistrationForm() {
       }
 
       // Verificar reCAPTCHA con el backend
-      console.log("Verificando reCAPTCHA...");
       const recaptchaValido = await apiService.verificarRecaptcha(values.captcha);
       
       if (!recaptchaValido) {
         form.setError("captcha", {
           type: "manual",
-          message: "Verificación del captcha falló. Por favor, inténtalo de nuevo."
+          message: "Verificación falló. Inténtalo de nuevo."
         });
         setIsSubmitting(false);
         return;
       }
-
-      console.log("reCAPTCHA válido, enviando datos...");
       
       // Preparar datos para la API (excluir campos de confirmación)
       const datosParaAPI = {
@@ -384,14 +377,9 @@ export default function RegistrationForm() {
       };
 
       // Enviar datos del formulario al backend
-      console.log("🚀 Enviando formulario al backend...");
       const response = await apiService.registrarFiscal(datosParaAPI);
       
-      console.log("📥 Respuesta recibida:", response);
-      
       if (response && response.success) {
-        console.log("✅ Fiscal registrado exitosamente:", response);
-        
         // Resetear reCAPTCHA después del envío exitoso
         if (recaptchaRef.current) {
           recaptchaRef.current.reset();
@@ -403,21 +391,15 @@ export default function RegistrationForm() {
         // Redirigir a la página de éxito con el nombre del fiscal
         const nombreFiscal = values.nombre;
         const urlExito = `/registro-exitoso?nombre=${encodeURIComponent(nombreFiscal)}`;
-        console.log("🚀 Intentando redirigir a:", urlExito);
         navigate(urlExito);
-        console.log("✅ Redirección ejecutada");
         
-        // Retornar para evitar que continúe la ejecución
         return;
       } else {
         const errorMsg = response?.message || 'Error desconocido al registrar fiscal';
-        console.error("❌ Error en respuesta:", errorMsg);
         throw new Error(errorMsg);
       }
       
     } catch (error) {
-      console.error("Error al enviar el formulario:", error);
-      
       // Verificar si es un error de registro duplicado
       if (error instanceof Error) {
         const errorMessage = error.message.toLowerCase();
@@ -428,8 +410,6 @@ export default function RegistrationForm() {
             errorMessage.includes('already exists') ||
             errorMessage.includes('dni ya registrado') ||
             errorMessage.includes('email ya registrado')) {
-          
-          console.log("✅ Registro duplicado detectado, mostrando mensaje de éxito");
           
           // Resetear reCAPTCHA
           if (recaptchaRef.current) {
@@ -442,7 +422,6 @@ export default function RegistrationForm() {
           // Redirigir a la página de éxito con el nombre del fiscal
           const nombreFiscal = values.nombre;
           const urlExito = `/registro-exitoso?nombre=${encodeURIComponent(nombreFiscal)}`;
-          console.log("🚀 Redirigiendo a página de éxito (registro duplicado):", urlExito);
           navigate(urlExito);
           
           return; // Salir sin mostrar error
@@ -456,10 +435,10 @@ export default function RegistrationForm() {
         if (error.message.includes('captcha')) {
           form.setError("captcha", {
             type: "manual",
-            message: "Error en la verificación del captcha. Por favor, inténtalo de nuevo."
+            message: "Error en la verificación. Inténtalo de nuevo."
           });
         } else if (error.message.includes('network') || error.message.includes('fetch')) {
-          errorMessage = "Error de conexión. Verifica tu internet e inténtalo de nuevo.";
+          errorMessage = "Error de conexión. Verifica tu internet.";
         } else {
           errorMessage = error.message;
         }
@@ -483,13 +462,7 @@ export default function RegistrationForm() {
       <div className="max-w-2xl mx-auto">
         <Card className="p-8 border-2 border-primary/20 rounded-3xl bg-card shadow-lg">
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(
-              onSubmit,
-              (errors) => {
-                console.log("❌ Errores de validación:", errors);
-                console.log("❌ Formulario no válido, no se puede enviar");
-              }
-            )} className="space-y-6">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               {/* Primera fila: Nombre y Apellido */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <FormField
@@ -1559,7 +1532,7 @@ export default function RegistrationForm() {
                     {submitMessage.type === 'success' ? (
                       <CheckCircle className="w-8 h-8 text-green-600 mr-4 mt-1 flex-shrink-0" />
                     ) : (
-                      <div className="w-8 h-8 rounded-full bg-red-500 mr-4 mt-1 flex-shrink-0"></div>
+                      <XCircle className="w-8 h-8 text-red-600 mr-4 mt-1 flex-shrink-0" />
                     )}
                     <div className="flex-1">
                       <h3 className={`font-bold text-lg mb-2 ${
