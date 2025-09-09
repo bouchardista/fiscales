@@ -91,7 +91,6 @@ const Hero = () => {
           className="w-full h-full object-cover"
           autoPlay
           muted={isMuted}
-          loop
           playsInline
         >
           <source src="/Cordoba - kirchnerismo nunca mas.mp4" type="video/mp4" />
