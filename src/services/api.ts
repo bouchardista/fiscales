@@ -32,10 +32,11 @@ export interface BackendFiscalData {
   celular: string;
   email: string;
   fecha_nacimiento: string;
-  idLocalidad: number;
-  idBarrio: number;
+  idLocalidad: number | null;
+  idBarrio: number | null;
   sexo: string;
   tyc: boolean;
+  otros_descripcion: string | null;
 }
 
 export interface ApiResponse {
@@ -46,7 +47,7 @@ export interface ApiResponse {
 
 export const apiService = {
   // Registrar un nuevo fiscal
-  async registrarFiscal(data: FiscalData): Promise<ApiResponse> {
+  async registrarFiscal(data: BackendFiscalData): Promise<ApiResponse> {
     console.log('MODO_DESARROLLO:', MODO_DESARROLLO);
     
     // Modo desarrollo - simular respuesta exitosa
@@ -68,23 +69,8 @@ export const apiService = {
 
     // Modo producción - llamada real a la API
     try {
-      // Transformar datos al formato que espera el backend
-      const datosBackend: any = {
-        apellido: data.apellido,
-        nombre: data.nombre,
-        dni: data.dni,
-        celular: `+54${data.areaCelular}${data.numeroCelular}`,
-        email: data.email,
-        fecha_nacimiento: `${data.anoNacimiento}-${data.mesNacimiento.padStart(2, '0')}-${data.diaNacimiento.padStart(2, '0')}`,
-        idLocalidad: parseInt(data.ciudad) || 0,
-        sexo: data.sexo === 'masculino' ? 'M' : 'F',
-        tyc: data.aceptarTerminos
-      };
-
-      // Solo incluir idBarrio si idLocalidad = 116
-      if (datosBackend.idLocalidad === 116) {
-        datosBackend.idBarrio = parseInt(data.barrio) || 0;
-      }
+      // Los datos ya vienen en el formato correcto
+      const datosBackend = data;
 
       console.log('📤 Enviando datos al backend:', datosBackend);
 

@@ -355,25 +355,34 @@ export default function RegistrationForm() {
         return;
       }
       
-      // Preparar datos para la API (excluir campos de confirmación)
+      // Preparar datos para la API en el formato correcto
+      const fechaNacimiento = `${values.anoNacimiento}-${values.mesNacimiento.padStart(2, '0')}-${values.diaNacimiento.padStart(2, '0')}`;
+      const celular = `${values.codigoPais}${values.areaCelular}${values.numeroCelular}`;
+      
+      // Determinar si se seleccionó "OTROS" para localidad o barrio
+      const esLocalidadOtros = values.ciudad === "999";
+      const esBarrioOtros = values.barrio === "999";
+      
+      // Preparar otros_descripcion
+      let otrosDescripcion = null;
+      if (esLocalidadOtros && values.ciudadOtros) {
+        otrosDescripcion = values.ciudadOtros;
+      } else if (esBarrioOtros && values.barrioOtros) {
+        otrosDescripcion = values.barrioOtros;
+      }
+      
       const datosParaAPI = {
-        nombre: values.nombre,
         apellido: values.apellido,
+        nombre: values.nombre,
         dni: values.dni,
-        confirmarDni: values.confirmarDni,
-        areaCelular: values.areaCelular,
-        numeroCelular: values.numeroCelular,
-        confirmarAreaCelular: values.confirmarAreaCelular,
-        confirmarNumeroCelular: values.confirmarNumeroCelular,
+        celular: celular,
         email: values.email,
-        diaNacimiento: values.diaNacimiento,
-        mesNacimiento: values.mesNacimiento,
-        anoNacimiento: values.anoNacimiento,
-        ciudad: values.ciudad,
-        barrio: values.barrio,
-        sexo: values.sexo,
-        aceptarTerminos: values.aceptarTerminos,
-        captcha: values.captcha
+        fecha_nacimiento: fechaNacimiento,
+        idLocalidad: esLocalidadOtros ? null : parseInt(values.ciudad),
+        idBarrio: esBarrioOtros ? null : (values.barrio ? parseInt(values.barrio) : null),
+        sexo: values.sexo === "masculino" ? "M" : "F",
+        tyc: values.aceptarTerminos,
+        otros_descripcion: otrosDescripcion
       };
 
       // Enviar datos del formulario al backend
