@@ -1279,10 +1279,11 @@ export default function RegistrationForm() {
                           <Input
                             {...field}
                             placeholder="Ingrese el nombre de su localidad"
+                            maxLength={80}
                             className="rounded-xl border-border bg-input h-12"
                             onKeyDown={(e) => {
-                              // Solo permitir letras, espacios, guiones y acentos
-                              if (!/[a-zA-ZáéíóúÁÉÍÓÚñÑ\s\-]/.test(e.key) && !['Backspace', 'Delete', 'Tab', 'Enter', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                              // Permitir letras, números, espacios, guiones y acentos
+                              if (!/[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s\-]/.test(e.key) && !['Backspace', 'Delete', 'Tab', 'Enter', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
                                 e.preventDefault();
                               }
                             }}
@@ -1435,10 +1436,11 @@ export default function RegistrationForm() {
                           <Input
                             {...field}
                             placeholder="Ingrese el nombre de su barrio"
+                            maxLength={80}
                             className="rounded-xl border-border bg-input h-12"
                             onKeyDown={(e) => {
-                              // Solo permitir letras, espacios, guiones y acentos
-                              if (!/[a-zA-ZáéíóúÁÉÍÓÚñÑ\s\-]/.test(e.key) && !['Backspace', 'Delete', 'Tab', 'Enter', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                              // Permitir letras, números, espacios, guiones y acentos
+                              if (!/[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s\-]/.test(e.key) && !['Backspace', 'Delete', 'Tab', 'Enter', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
                                 e.preventDefault();
                               }
                             }}
