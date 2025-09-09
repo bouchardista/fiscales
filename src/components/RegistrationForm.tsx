@@ -378,8 +378,8 @@ export default function RegistrationForm() {
         celular: celular,
         email: values.email,
         fecha_nacimiento: fechaNacimiento,
-        idLocalidad: esLocalidadOtros ? null : parseInt(values.ciudad),
-        idBarrio: esBarrioOtros ? null : (values.barrio ? parseInt(values.barrio) : null),
+        idLocalidad: esLocalidadOtros ? 999 : parseInt(values.ciudad),
+        idBarrio: esBarrioOtros ? 999 : (values.barrio ? parseInt(values.barrio) : null),
         sexo: values.sexo === "masculino" ? "M" : "F",
         tyc: values.aceptarTerminos,
         otros_descripcion: otrosDescripcion

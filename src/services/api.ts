@@ -32,7 +32,7 @@ export interface BackendFiscalData {
   celular: string;
   email: string;
   fecha_nacimiento: string;
-  idLocalidad: number | null;
+  idLocalidad: number;
   idBarrio: number | null;
   sexo: string;
   tyc: boolean;
