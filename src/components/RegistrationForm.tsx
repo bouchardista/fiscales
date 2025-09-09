@@ -17,8 +17,8 @@ import { cn } from "@/lib/utils";
 import ReCAPTCHA from "react-google-recaptcha";
 import { RECAPTCHA_CONFIG } from "../config/recaptcha";
 import { apiService } from "../services/api";
-import { localidades } from "@/data/localidades";
-import { barriosPorCiudad } from "@/data/barrios";
+import localidades from "@/data/localidades";
+import barriosPorCiudad from "@/data/barrios";
 
 const formSchema = z.object({
   apellido: z.string().min(2, "El apellido debe tener al menos 2 caracteres"),
@@ -191,7 +191,7 @@ export default function RegistrationForm() {
       // Si el barrio seleccionado no está disponible en la nueva ciudad, limpiarlo
       const barriosDisponibles = barriosPorCiudad[ciudadSeleccionada as keyof typeof barriosPorCiudad] || [];
       const barrioActual = form.getValues("barrio");
-      if (barrioActual && !barriosDisponibles.includes(barrioActual)) {
+      if (barrioActual && !barriosDisponibles.some(barrio => barrio.id.toString() === barrioActual)) {
         form.setValue("barrio", "");
       }
     } else {
