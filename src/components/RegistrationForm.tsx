@@ -207,13 +207,17 @@ export default function RegistrationForm() {
   useEffect(() => {
     // Validar coincidencia de códigos de país en tiempo real
     if (confirmarCodigoPais && confirmarCodigoPais.length > 0) {
-      if (codigoPais && codigoPais !== confirmarCodigoPais) {
+      // Normalizar códigos para comparación (remover sufijos -US, -CA)
+      const codigoPaisNormalizado = codigoPais?.replace('-US', '').replace('-CA', '');
+      const confirmarCodigoPaisNormalizado = confirmarCodigoPais?.replace('-US', '').replace('-CA', '');
+      
+      if (codigoPais && codigoPaisNormalizado !== confirmarCodigoPaisNormalizado) {
         // Mostrar error en el campo codigoPais para que aparezca en el mensaje personalizado
         form.setError("codigoPais", {
           type: "manual",
           message: "Los códigos de país deben ser iguales"
         });
-      } else if (codigoPais && codigoPais === confirmarCodigoPais) {
+      } else if (codigoPais && codigoPaisNormalizado === confirmarCodigoPaisNormalizado) {
         form.clearErrors("confirmarCodigoPais");
         form.clearErrors("codigoPais");
       }
@@ -357,7 +361,10 @@ export default function RegistrationForm() {
       
       // Preparar datos para la API en el formato correcto
       const fechaNacimiento = `${values.anoNacimiento}-${values.mesNacimiento.padStart(2, '0')}-${values.diaNacimiento.padStart(2, '0')}`;
-      const celular = `${values.codigoPais}${values.areaCelular}${values.numeroCelular}`;
+      
+      // Convertir códigos de país especiales a formato estándar
+      const codigoPaisReal = values.codigoPais.replace('-US', '').replace('-CA', '');
+      const celular = `${codigoPaisReal}${values.areaCelular}${values.numeroCelular}`;
       
       // Determinar si se seleccionó "OTROS" para localidad o barrio
       const esLocalidadOtros = values.ciudad === "999";
@@ -611,12 +618,16 @@ export default function RegistrationForm() {
                             field.onChange(value);
                             // Validación instantánea de código de país
                             const confirmarCodigoPais = form.getValues("confirmarCodigoPais");
-                            if (confirmarCodigoPais && confirmarCodigoPais !== value) {
+                            // Normalizar códigos para comparación
+                            const valueNormalizado = value.replace('-US', '').replace('-CA', '');
+                            const confirmarCodigoPaisNormalizado = confirmarCodigoPais?.replace('-US', '').replace('-CA', '');
+                            
+                            if (confirmarCodigoPais && confirmarCodigoPaisNormalizado !== valueNormalizado) {
                               form.setError("codigoPais", {
                                 type: "manual",
                                 message: "Los códigos de país deben ser iguales"
                               });
-                            } else if (confirmarCodigoPais && confirmarCodigoPais === value) {
+                            } else if (confirmarCodigoPais && confirmarCodigoPaisNormalizado === valueNormalizado) {
                               form.clearErrors("codigoPais");
                               form.clearErrors("confirmarCodigoPais");
                             }
@@ -634,7 +645,7 @@ export default function RegistrationForm() {
                               <SelectItem value="+58">🇻🇪 +58</SelectItem>
                               <SelectItem value="+51">🇵🇪 +51</SelectItem>
                               <SelectItem value="+52">🇲🇽 +52</SelectItem>
-                              <SelectItem value="+1">🇺🇸 +1</SelectItem>
+                              <SelectItem value="+1-US">🇺🇸 +1</SelectItem>
                               <SelectItem value="+34">🇪🇸 +34</SelectItem>
                               <SelectItem value="+39">🇮🇹 +39</SelectItem>
                               <SelectItem value="+33">🇫🇷 +33</SelectItem>
@@ -646,7 +657,7 @@ export default function RegistrationForm() {
                               <SelectItem value="+82">🇰🇷 +82</SelectItem>
                               <SelectItem value="+91">🇮🇳 +91</SelectItem>
                               <SelectItem value="+61">🇦🇺 +61</SelectItem>
-                              <SelectItem value="+1">🇨🇦 +1</SelectItem>
+                              <SelectItem value="+1-CA">🇨🇦 +1</SelectItem>
                             </SelectContent>
                           </Select>
                         </FormItem>
@@ -711,12 +722,16 @@ export default function RegistrationForm() {
                             field.onChange(value);
                             // Validación instantánea de código de país
                             const codigoPais = form.getValues("codigoPais");
-                            if (codigoPais && codigoPais !== value) {
+                            // Normalizar códigos para comparación
+                            const valueNormalizado = value.replace('-US', '').replace('-CA', '');
+                            const codigoPaisNormalizado = codigoPais?.replace('-US', '').replace('-CA', '');
+                            
+                            if (codigoPais && codigoPaisNormalizado !== valueNormalizado) {
                               form.setError("codigoPais", {
                                 type: "manual",
                                 message: "Los códigos de país deben ser iguales"
                               });
-                            } else if (codigoPais && codigoPais === value) {
+                            } else if (codigoPais && codigoPaisNormalizado === valueNormalizado) {
                               form.clearErrors("confirmarCodigoPais");
                               form.clearErrors("codigoPais");
                             }
@@ -734,7 +749,7 @@ export default function RegistrationForm() {
                               <SelectItem value="+58">🇻🇪 +58</SelectItem>
                               <SelectItem value="+51">🇵🇪 +51</SelectItem>
                               <SelectItem value="+52">🇲🇽 +52</SelectItem>
-                              <SelectItem value="+1">🇺🇸 +1</SelectItem>
+                              <SelectItem value="+1-US">🇺🇸 +1</SelectItem>
                               <SelectItem value="+34">🇪🇸 +34</SelectItem>
                               <SelectItem value="+39">🇮🇹 +39</SelectItem>
                               <SelectItem value="+33">🇫🇷 +33</SelectItem>
@@ -746,7 +761,7 @@ export default function RegistrationForm() {
                               <SelectItem value="+82">🇰🇷 +82</SelectItem>
                               <SelectItem value="+91">🇮🇳 +91</SelectItem>
                               <SelectItem value="+61">🇦🇺 +61</SelectItem>
-                              <SelectItem value="+1">🇨🇦 +1</SelectItem>
+                              <SelectItem value="+1-CA">🇨🇦 +1</SelectItem>
                             </SelectContent>
                           </Select>
                         </FormItem>

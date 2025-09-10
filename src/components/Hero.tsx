@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { useState, useRef, useEffect } from 'react';
 import { Volume2, VolumeX } from 'lucide-react';
+import Hls from 'hls.js';
 
 const Hero = () => {
   const [isMuted, setIsMuted] = useState(true);
@@ -15,10 +16,111 @@ const Hero = () => {
     return () => clearTimeout(timer);
   }, []);
 
+  // Configurar HLS para el video
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) {
+      console.error('Video ref no disponible');
+      return;
+    }
+
+    // URLs a probar en orden de prioridad
+    const urlsToTry = [
+      // REEMPLAZA ESTA URL CON LA URL CORRECTA DE TU VIDEO EN BUNNYCDN
+      "https://TU_URL_CORRECTA_AQUI.m3u8",
+      "https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8" // Fallback temporal
+    ];
+
+    let currentUrlIndex = 0;
+    let hlsInstance: Hls | null = null;
+
+    const tryNextUrl = () => {
+      if (currentUrlIndex >= urlsToTry.length) {
+        console.error('❌ Todas las URLs fallaron');
+        return;
+      }
+
+      const src = urlsToTry[currentUrlIndex];
+      console.log(`🔧 Probando URL ${currentUrlIndex + 1}/${urlsToTry.length}:`, src);
+
+      // Verificar soporte de HLS
+      const canPlayHLS = video.canPlayType("application/vnd.apple.mpegurl");
+      const hlsSupported = Hls.isSupported();
+      
+      console.log('Soporte HLS nativo:', canPlayHLS);
+      console.log('hls.js soportado:', hlsSupported);
+      
+      if (canPlayHLS) {
+        // Safari soporta HLS nativamente
+        console.log('✅ Usando soporte nativo de HLS');
+        video.src = src;
+      } else if (hlsSupported) {
+        // Otros navegadores necesitan hls.js
+        console.log('✅ Usando hls.js para reproducir video');
+        hlsInstance = new Hls({
+          debug: false, // Reducir logs para producción
+          enableWorker: true,
+          lowLatencyMode: true
+        });
+        
+        hlsInstance.on(Hls.Events.ERROR, (event, data) => {
+          console.error(`❌ Error HLS con URL ${currentUrlIndex + 1}:`, data);
+          if (data.fatal) {
+            console.log(`🔄 Intentando siguiente URL...`);
+            currentUrlIndex++;
+            if (hlsInstance) {
+              hlsInstance.destroy();
+              hlsInstance = null;
+            }
+            setTimeout(tryNextUrl, 1000); // Esperar 1 segundo antes de probar la siguiente URL
+          }
+        });
+        
+        hlsInstance.on(Hls.Events.MANIFEST_PARSED, () => {
+          console.log('✅ Manifest HLS parseado correctamente con URL:', src);
+        });
+        
+        hlsInstance.loadSource(src);
+        hlsInstance.attachMedia(video);
+      } else {
+        console.error('❌ HLS no soportado en este navegador');
+      }
+    };
+
+    // Iniciar con la primera URL
+    tryNextUrl();
+
+    return () => {
+      console.log('🧹 Limpiando HLS...');
+      if (hlsInstance) {
+        hlsInstance.destroy();
+      }
+    };
+  }, []);
+
   const toggleMute = () => {
     if (videoRef.current) {
       videoRef.current.muted = !isMuted;
       setIsMuted(!isMuted);
+    }
+  };
+
+  const handleVideoError = (e: React.SyntheticEvent<HTMLVideoElement, Event>) => {
+    console.error('Error al cargar el video:', e);
+    const video = e.currentTarget;
+    console.error('Error details:', {
+      error: video.error,
+      networkState: video.networkState,
+      readyState: video.readyState,
+      src: video.src
+    });
+  };
+
+  const handleVideoLoad = () => {
+    console.log('Video cargado exitosamente');
+    if (videoRef.current) {
+      console.log('Video ready state:', videoRef.current.readyState);
+      console.log('Video network state:', videoRef.current.networkState);
     }
   };
 
@@ -92,8 +194,13 @@ const Hero = () => {
           autoPlay
           muted={isMuted}
           playsInline
+          controls={false}
+          loop
+          onError={handleVideoError}
+          onLoadedData={handleVideoLoad}
+          onCanPlay={handleVideoLoad}
+          preload="auto"
         >
-          <source src="/Cordoba - kirchnerismo nunca mas.mp4" type="video/mp4" />
           {/* Fallback gradient */}
           <div className="w-full h-full bg-gradient-to-br from-primary via-secondary to-accent"></div>
         </video>
