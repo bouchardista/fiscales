@@ -113,10 +113,21 @@ const Hero = () => {
             ? 'opacity-100 translate-y-0' 
             : 'opacity-0 translate-y-8'
         }`}>
-                   SUMATE A LA LEGIÓN DE
-                   <span className="block text-yellow-400">
-                     DIEZ MIL HÉROES
-                   </span>
+          <span className="block md:hidden">
+            SUMATE
+          </span>
+          <span className="block md:hidden">
+            A LA LEGIÓN DE
+          </span>
+          <span className="block md:hidden text-yellow-400">
+            DIEZ MIL HÉROES
+          </span>
+          <span className="hidden md:block">
+            SUMATE A LA LEGIÓN DE
+          </span>
+          <span className="hidden md:block text-yellow-400">
+            DIEZ MIL HÉROES
+          </span>
         </h1>
         
         <p className={`text-lg md:text-xl mb-8 transition-all duration-1000 delay-400 ease-out ${
@@ -124,7 +135,15 @@ const Hero = () => {
             ? 'opacity-100 translate-y-0' 
             : 'opacity-0 translate-y-8'
         }`}>
-          Registrate como fiscal de La Libertad Avanza.
+          <span className="block md:hidden">
+            Registrate como fiscal de
+          </span>
+          <span className="block md:hidden">
+            La Libertad Avanza.
+          </span>
+          <span className="hidden md:block">
+            Registrate como fiscal de La Libertad Avanza.
+          </span>
         </p>
         
         <Button 

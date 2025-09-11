@@ -19,9 +19,7 @@ export default function RegistroExitoso() {
       <header className="bg-gradient-to-r from-[#832B99] via-[#631577] to-[#440055] text-primary-foreground py-4 px-6">
         <div className="max-w-7xl mx-auto flex items-center justify-center">
           <a 
-            href="https://lalibertadavanza.com.ar/" 
-            target="_blank" 
-            rel="noopener noreferrer"
+            href="/" 
             className="hover:opacity-80 transition-opacity"
           >
             <img src="/white-logo.png" alt="La Libertad Avanza" className="h-8" />
@@ -33,14 +31,14 @@ export default function RegistroExitoso() {
       <div className="max-w-4xl mx-auto px-6 py-12">
         <Card className="p-8 md:p-12 border-2 border-primary/20 rounded-3xl bg-card shadow-lg">
           {/* Contenido Principal */}
-          <div className="text-center mb-12">
+          <div className="text-center mb-6 md:mb-12">
             <div className="flex justify-center mb-8">
               <CheckCircle className="w-20 h-20 text-green-600" />
             </div>
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
               ¡BIENVENIDO, {nombre.toUpperCase()}!
             </h1>
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-600 mb-6">
+            <h2 className="text-xl md:text-2xl font-bold text-gray-600 mb-6">
               ¡GRACIAS POR SUMARTE A LA LEGIÓN DE DIEZ MIL HÉROES!
             </h2>
           </div>
