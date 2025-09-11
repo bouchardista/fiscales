@@ -57,9 +57,6 @@ export default function RegistroExitoso() {
               
               {/* Mensaje Final */}
               <div className="space-y-4 pt-6 border-t border-gray-300">
-                <p className="text-xl font-bold text-gray-900">
-                  ¡GRACIAS POR SUMARTE A ESTA GESTA HEROICA!
-                </p>
             <p className="text-xl font-bold text-[#6B237D]">
               ¡VIVA LA LIBERTAD, CARAJO!
             </p>
