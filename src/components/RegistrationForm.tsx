@@ -20,6 +20,14 @@ import { apiService } from "../services/api";
 import localidades from "@/data/localidades";
 import barriosPorCiudad from "@/data/barrios";
 
+// Función para normalizar texto (quitar acentos y convertir a minúsculas)
+const normalizeText = (text: string): string => {
+  return text
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, ''); // Quitar acentos
+};
+
 const formSchema = z.object({
   apellido: z.string().min(2, "El apellido debe tener al menos 2 caracteres"),
   nombre: z.string().min(2, "El nombre debe tener al menos 2 caracteres"),
@@ -1213,7 +1221,7 @@ export default function RegistrationForm() {
                               {/* Localidades filtradas */}
                               {localidades
                                 .filter((localidad) =>
-                                  localidad.nombre.toLowerCase().includes(busquedaLocalidad.toLowerCase())
+                                  normalizeText(localidad.nombre).includes(normalizeText(busquedaLocalidad))
                                 )
                                 .map((localidad) => (
                                   <div
@@ -1240,7 +1248,7 @@ export default function RegistrationForm() {
                               
                               {/* Separador */}
                               {localidades.filter((localidad) =>
-                                localidad.nombre.toLowerCase().includes(busquedaLocalidad.toLowerCase())
+                                normalizeText(localidad.nombre).includes(normalizeText(busquedaLocalidad))
                               ).length > 0 && (
                                 <div className="border-t my-2"></div>
                               )}
@@ -1369,7 +1377,7 @@ export default function RegistrationForm() {
                               {barriosFinales
                                 .filter((barrio) => barrio.id !== 999)
                                 .filter((barrio) =>
-                                  barrio.nombre.toLowerCase().includes(busquedaBarrio.toLowerCase())
+                                  normalizeText(barrio.nombre).includes(normalizeText(busquedaBarrio))
                                 )
                                 .map((barrio) => (
                                   <div
@@ -1397,7 +1405,7 @@ export default function RegistrationForm() {
                               {barriosFinales
                                 .filter((barrio) => barrio.id !== 999)
                                 .filter((barrio) =>
-                                  barrio.nombre.toLowerCase().includes(busquedaBarrio.toLowerCase())
+                                  normalizeText(barrio.nombre).includes(normalizeText(busquedaBarrio))
                                 ).length > 0 && (
                                 <div className="border-t my-2"></div>
                               )}
