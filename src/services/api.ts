@@ -1,8 +1,8 @@
 // Servicio de API para el registro de fiscales
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://fiscales2025.onrender.com';
 
-// Modo de desarrollo - forzar a false para probar con API real
-const MODO_DESARROLLO = false; // import.meta.env.DEV || import.meta.env.NODE_ENV === 'development';
+// Modo de desarrollo - temporalmente true para ver mensaje de éxito
+const MODO_DESARROLLO = true; // import.meta.env.DEV || import.meta.env.NODE_ENV === 'development';
 
 export interface FiscalData {
   nombre: string;

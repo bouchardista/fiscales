@@ -38,27 +38,31 @@ export default function RegistroExitoso() {
               <CheckCircle className="w-20 h-20 text-green-600" />
             </div>
             <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              ¡REGISTRO EXITOSO!
+              ¡BIENVENIDO, {nombre.toUpperCase()}!
             </h1>
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-6">
-              ¡GRACIAS {nombre.toUpperCase()} POR SUMARTE!
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-600 mb-6">
+              ¡GRACIAS POR SUMARTE A LA LEGIÓN DE DIEZ MIL HÉROES!
             </h2>
           </div>
 
           {/* Mensaje Principal e Inspirador */}
           <div className="bg-gray-50 border border-gray-200 rounded-2xl p-8 mb-12">
             <div className="text-center space-y-8">
-              {/* Sección de Confirmación */}
+              {/* Mensaje Principal */}
               <div className="space-y-4">
-                <h3 className="text-xl font-semibold text-gray-900">
-                  Confirmación de Registro
-                </h3>
                 <p className="text-lg text-gray-700 leading-relaxed">
-                  Tu inscripción como fiscal de mesa en Córdoba fue registrada con éxito.
+                En los próximos días nos contactaremos para confirmarte los detalles de la fiscalización y futuras capacitaciones para fiscales de La Libertad Avanza.
                 </p>
-                <p className="text-base text-gray-600 leading-relaxed">
-                  En los próximos días nuestro equipo se pondrá en contacto con vos para confirmarte los detalles y entregarte las herramientas necesarias para cuidar la voluntad de los argentinos.
+              </div>
+              
+              {/* Mensaje Final */}
+              <div className="space-y-4 pt-6 border-t border-gray-300">
+                <p className="text-xl font-bold text-gray-900">
+                  ¡GRACIAS POR SUMARTE A ESTA GESTA HEROICA!
                 </p>
+            <p className="text-xl font-bold text-[#6B237D]">
+              ¡VIVA LA LIBERTAD, CARAJO!
+            </p>
               </div>
 
 

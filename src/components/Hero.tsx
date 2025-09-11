@@ -108,16 +108,24 @@ const Hero = () => {
           ? 'opacity-100 translate-y-0' 
           : 'opacity-0 translate-y-8'
       }`}>
-        <h1 className={`text-5xl md:text-7xl font-bold mb-8 transition-all duration-1000 delay-300 ease-out ${
+        <h1 className={`text-4xl md:text-6xl font-bold mb-6 transition-all duration-1000 delay-300 ease-out ${
           showContent 
             ? 'opacity-100 translate-y-0' 
             : 'opacity-0 translate-y-8'
         }`}>
-          La Libertad
-          <span className="block text-white">
-            Avanza Córdoba
-          </span>
+                   SUMATE A LA LEGIÓN DE
+                   <span className="block text-yellow-400">
+                     DIEZ MIL HÉROES
+                   </span>
         </h1>
+        
+        <p className={`text-lg md:text-xl mb-8 transition-all duration-1000 delay-400 ease-out ${
+          showContent 
+            ? 'opacity-100 translate-y-0' 
+            : 'opacity-0 translate-y-8'
+        }`}>
+          Registrate como fiscal de La Libertad Avanza.
+        </p>
         
         <Button 
           variant="hero" 
@@ -134,7 +142,7 @@ const Hero = () => {
             }
           }}
         >
-          Sumate a Fiscalizar
+          Sumate a fiscalizar
         </Button>
       </div>
       </section>

@@ -14,15 +14,28 @@ export default function Landing() {
 
           {/* Right: Content */}
           <div className="order-1 lg:order-2 space-y-8">
-            <div>
-              <h1 className="text-4xl lg:text-5xl font-bold bg-gradient-to-b from-[#6B237D] via-[#5A1E6A] via-[#4A1957] via-[#3A1444] to-[#2A0F31] bg-clip-text text-transparent mb-6">
+            <div className="space-y-3">
+              <h1 className="text-3xl lg:text-4xl font-bold bg-gradient-to-b from-[#6B237D] via-[#5A1E6A] via-[#4A1957] via-[#3A1444] to-[#2A0F31] bg-clip-text text-transparent">
                 SUMATE A FISCALIZAR
               </h1>
-              <p className="text-base text-muted-foreground leading-relaxed">
-                ¡Tu compromiso hace la diferencia! Sumate como fiscal de mesa de La Libertad Avanza en la provincia 
-                de Córdoba y ayudanos a defender el voto de todos los cordobeses. Completá este formulario para 
-                unirte a nuestro equipo y ser parte activa del cambio que estamos construyendo.
+              
+              <p className="text-lg font-bold text-gray-600 leading-relaxed">
+                Convertite en fiscal de mesa de La Libertad Avanza y defendé el futuro de Argentina.
               </p>
+              
+              <p className="text-base text-gray-700 leading-relaxed">
+                Tu compromiso es clave para que las reformas sigan avanzando.
+              </p>
+              
+              <p className="text-base text-gray-600 leading-relaxed">
+                Completá el formulario oficial único de La Libertad Avanza Córdoba.
+              </p>
+              
+              <div className="pt-4">
+            <p className="text-2xl font-bold text-[#6B237D]">
+              ¡VIVA LA LIBERTAD, CARAJO!
+            </p>
+              </div>
             </div>
 
             {/* Candidate Image */}
