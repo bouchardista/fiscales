@@ -630,7 +630,7 @@ export default function RegistrationForm() {
                             }
                           }} defaultValue={field.value}>
                             <FormControl>
-                              <SelectTrigger className="w-12 rounded-xl border-border bg-input h-12">
+                              <SelectTrigger className="w-12 rounded-xl border-border bg-input h-12 [&>svg]:h-5 [&>svg]:w-5 [&>svg]:ml-1">
                                 <SelectValue />
                               </SelectTrigger>
                             </FormControl>
@@ -730,7 +730,7 @@ export default function RegistrationForm() {
                             }
                           }} defaultValue={field.value}>
                             <FormControl>
-                              <SelectTrigger className="w-12 rounded-xl border-border bg-input h-12">
+                              <SelectTrigger className="w-12 rounded-xl border-border bg-input h-12 [&>svg]:h-5 [&>svg]:w-5 [&>svg]:ml-1">
                                 <SelectValue />
                               </SelectTrigger>
                             </FormControl>

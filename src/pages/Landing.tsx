@@ -58,10 +58,10 @@ export default function Landing() {
       </div>
 
       {/* Footer */}
-      <footer className="bg-[#371859] text-primary-foreground py-6 mt-1.5">
+      <footer className="bg-[#371859] text-primary-foreground py-6 mt-1.5 mb-5">
         <div className="max-w-7xl mx-auto px-6 text-center space-y-4">
-          <div className="flex flex-col items-center space-y-2 pb-4">
-            <p className="text-sm font-medium">Seguinos</p>
+          <div className="flex flex-col items-center space-y-2 pb-2">
+            <p className="text-sm font-medium mb-1">Seguinos</p>
             <div className="flex space-x-4">
               <a 
                 href="https://www.facebook.com/share/1CUEMtX5hK/" 
@@ -96,7 +96,8 @@ export default function Landing() {
             </div>
           </div>
           <p className="text-sm opacity-80">
-            © 2025 La Libertad Avanza Córdoba. Todos los derechos reservados.
+            <span className="block md:inline">© 2025 La Libertad Avanza Córdoba.</span>
+            <span className="block md:inline md:ml-1">Todos los derechos reservados.</span>
           </p>
         </div>
       </footer>
