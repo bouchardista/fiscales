@@ -149,7 +149,7 @@ const Hero = () => {
         <Button 
           variant="hero" 
           size="lg" 
-          className={`text-xl px-12 py-4 transition-opacity transition-transform duration-1000 delay-500 ease-out hover:scale-105 hover:transition-transform hover:duration-400 hover:delay-0 transition-transform duration-400 delay-0 hover:shadow-[0_0_20px_rgba(251,191,36,0.6)] ${
+          className={`text-xl px-12 py-4 transition-opacity transition-transform duration-1000 delay-500 ease-out hover:scale-105 hover:transition-transform hover:duration-400 hover:delay-0 transition-transform duration-400 delay-0 ${
             showContent 
               ? 'opacity-100 translate-y-0 scale-100' 
               : 'opacity-0 translate-y-8 scale-95'
