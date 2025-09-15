@@ -365,7 +365,16 @@ export default function RegistrationForm() {
       
       // Preparar datos para la API en el formato correcto
       const fechaNacimiento = `${values.anoNacimiento}-${values.mesNacimiento.padStart(2, '0')}-${values.diaNacimiento.padStart(2, '0')}`;
-      const celular = `${values.codigoPais}${values.areaCelular}${values.numeroCelular}`;
+      
+      // Construir número de celular - para Argentina usar 549 en lugar de 54
+      let celular;
+      if (values.codigoPais === "+54") {
+        // Para Argentina, usar 549 + código de área + número
+        celular = `549${values.areaCelular}${values.numeroCelular}`;
+      } else {
+        // Para otros países, usar el código de país normal
+        celular = `${values.codigoPais}${values.areaCelular}${values.numeroCelular}`;
+      }
       
       // Determinar si se seleccionó "OTROS" para localidad o barrio
       const esLocalidadOtros = values.ciudad === "999";
