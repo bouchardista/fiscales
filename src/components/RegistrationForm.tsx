@@ -366,11 +366,12 @@ export default function RegistrationForm() {
       // Preparar datos para la API en el formato correcto
       const fechaNacimiento = `${values.anoNacimiento}-${values.mesNacimiento.padStart(2, '0')}-${values.diaNacimiento.padStart(2, '0')}`;
       
-      // Construir número de celular - para Argentina usar 54 + código de área (que ya incluye el 9)
+      // Construir número de celular - para Argentina usar 549 en lugar de 54
       let celular;
       if (values.codigoPais === "+54") {
-        // Para Argentina, usar 54 + código de área + número (el código de área ya incluye el 9)
-        celular = `54${values.areaCelular}${values.numeroCelular}`;
+        // Para Argentina, remover el 0 inicial del código de área si existe y usar 549
+        const areaSinCero = values.areaCelular.startsWith('0') ? values.areaCelular.substring(1) : values.areaCelular;
+        celular = `549${areaSinCero}${values.numeroCelular}`;
       } else {
         // Para otros países, usar el código de país normal
         celular = `${values.codigoPais}${values.areaCelular}${values.numeroCelular}`;
