@@ -94,7 +94,7 @@ const Hero = () => {
         <iframe
           width="100%"
           height="100%"
-          src="https://www.youtube.com/embed/jlhJjJ6Qiuo?autoplay=1&mute=1&loop=1&playlist=jlhJjJ6Qiuo&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1"
+          src="https://www.youtube.com/embed/jlhJjJ6Qiuo?autoplay=1&mute=1&loop=1&playlist=jlhJjJ6Qiuo&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&start=0&enablejsapi=1&origin=https://fiscales-landing.vercel.app&vq=hd1080"
           title="Video de fondo"
           frameBorder="0"
           allow="autoplay; encrypted-media"
@@ -104,7 +104,7 @@ const Hero = () => {
             position: 'absolute',
             top: '50%',
             left: '50%',
-            transform: 'translate(-50%, -50%) scale(1.5)',
+            transform: 'translate(-50%, -50%) scale(1.4)',
             width: '177.77777778vh',
             height: '56.25vw',
             minWidth: '100%',
