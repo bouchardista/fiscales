@@ -16,14 +16,25 @@ const Hero = () => {
 
   const toggleMute = () => {
     setIsMuted(!isMuted);
-    // Para YouTube, necesitamos recargar el iframe con el parámetro mute correcto
+    // Para YouTube, usar la API para cambiar mute sin recargar
     const iframe = document.querySelector('iframe[src*="youtube.com"]') as HTMLIFrameElement;
-    if (iframe) {
-      const currentSrc = iframe.src;
-      const newSrc = !isMuted 
-        ? currentSrc.replace(/mute=\d/, 'mute=1')
-        : currentSrc.replace(/mute=\d/, 'mute=0');
-      iframe.src = newSrc;
+    if (iframe && iframe.contentWindow) {
+      try {
+        iframe.contentWindow.postMessage(
+          JSON.stringify({
+            event: 'command',
+            func: !isMuted ? 'mute' : 'unMute'
+          }),
+          'https://www.youtube.com'
+        );
+      } catch (error) {
+        // Fallback: recargar iframe solo si la API falla
+        const currentSrc = iframe.src;
+        const newSrc = !isMuted 
+          ? currentSrc.replace(/mute=\d/, 'mute=1')
+          : currentSrc.replace(/mute=\d/, 'mute=0');
+        iframe.src = newSrc;
+      }
     }
   };
 
