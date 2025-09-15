@@ -99,16 +99,18 @@ const Hero = () => {
           frameBorder="0"
           allow="autoplay; encrypted-media"
           allowFullScreen
-          className="w-full h-full object-cover"
+          className="w-full h-full"
           style={{
             position: 'absolute',
             top: '50%',
             left: '50%',
-            transform: 'translate(-50%, -50%) scale(1.3)',
+            transform: 'translate(-50%, -50%) scale(1.5)',
+            width: '177.77777778vh',
+            height: '56.25vw',
             minWidth: '100%',
             minHeight: '100%',
-            width: 'auto',
-            height: 'auto',
+            maxWidth: 'none',
+            maxHeight: 'none',
           }}
         />
         <div className={`absolute inset-0 transition-all duration-1000 ease-out ${
