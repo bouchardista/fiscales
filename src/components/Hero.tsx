@@ -1,11 +1,10 @@
 import { Button } from '@/components/ui/button';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Volume2, VolumeX } from 'lucide-react';
 
 const Hero = () => {
   const [isMuted, setIsMuted] = useState(true);
   const [showContent, setShowContent] = useState(false);
-  const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -16,9 +15,15 @@ const Hero = () => {
   }, []);
 
   const toggleMute = () => {
-    if (videoRef.current) {
-      videoRef.current.muted = !isMuted;
-      setIsMuted(!isMuted);
+    setIsMuted(!isMuted);
+    // Para YouTube, necesitamos recargar el iframe con el parámetro mute correcto
+    const iframe = document.querySelector('iframe[src*="youtube.com"]') as HTMLIFrameElement;
+    if (iframe) {
+      const currentSrc = iframe.src;
+      const newSrc = !isMuted 
+        ? currentSrc.replace(/mute=\d/, 'mute=1')
+        : currentSrc.replace(/mute=\d/, 'mute=0');
+      iframe.src = newSrc;
     }
   };
 
@@ -86,17 +91,26 @@ const Hero = () => {
 
         {/* Video Background */}
         <div className="absolute inset-0 z-0">
-        <video
-          ref={videoRef}
+        <iframe
+          width="100%"
+          height="100%"
+          src="https://www.youtube.com/embed/jlhJjJ6Qiuo?autoplay=1&mute=1&loop=1&playlist=jlhJjJ6Qiuo&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1"
+          title="Video de fondo"
+          frameBorder="0"
+          allow="autoplay; encrypted-media"
+          allowFullScreen
           className="w-full h-full object-cover"
-          autoPlay
-          muted={isMuted}
-          playsInline
-        >
-          <source src="/Cordoba - kirchnerismo nunca mas.mp4" type="video/mp4" />
-          {/* Fallback gradient */}
-          <div className="w-full h-full bg-gradient-to-br from-primary via-secondary to-accent"></div>
-        </video>
+          style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%) scale(1.3)',
+            minWidth: '100%',
+            minHeight: '100%',
+            width: 'auto',
+            height: 'auto',
+          }}
+        />
         <div className={`absolute inset-0 transition-all duration-1000 ease-out ${
           showContent ? 'bg-black/40' : 'bg-black/5'
         }`}></div>
