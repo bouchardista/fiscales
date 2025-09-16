@@ -7,11 +7,8 @@ const Hero = () => {
   const [showContent, setShowContent] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowContent(true);
-    }, 7500);
-
-    return () => clearTimeout(timer);
+    // Mostrar el contenido inmediatamente al cargar
+    setShowContent(true);
   }, []);
 
   const toggleMute = () => {
@@ -29,6 +26,19 @@ const Hero = () => {
 
   return (
     <>
+      <style>{`
+        @keyframes fadeInUp {
+          0% {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          100% {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+      `}</style>
+      
       {/* Header */}
       <header className="bg-gradient-to-r from-[#832B99] via-[#631577] to-[#440055] text-primary-foreground py-4 px-6">
         <div className="max-w-7xl mx-auto flex items-center justify-center">
@@ -119,16 +129,18 @@ const Hero = () => {
       </div>
 
       {/* Minimal Content */}
-      <div className={`relative z-10 text-center text-white px-4 max-w-2xl mx-auto transition-all duration-1000 ease-out ${
+      <div className={`relative z-10 text-center text-white px-4 max-w-2xl mx-auto transition-all duration-800 ease-out ${
         showContent 
           ? 'opacity-100 translate-y-0' 
           : 'opacity-0 translate-y-8'
       }`}>
-        <h1 className={`text-4xl md:text-6xl font-bold mb-6 transition-all duration-1000 delay-300 ease-out ${
+        <h1 className={`text-4xl md:text-6xl font-bold mb-6 transition-all duration-800 delay-100 ease-out ${
           showContent 
             ? 'opacity-100 translate-y-0' 
             : 'opacity-0 translate-y-8'
-        }`}>
+        }`} style={{
+          animation: showContent ? 'fadeInUp 0.8s ease-out 0.1s both' : 'none'
+        }}>
           <span className="block md:hidden">
             SUMATE
           </span>
@@ -146,11 +158,13 @@ const Hero = () => {
           </span>
         </h1>
         
-        <p className={`text-lg md:text-xl mb-8 transition-all duration-1000 delay-400 ease-out ${
+        <p className={`text-lg md:text-xl mb-8 transition-all duration-800 delay-200 ease-out ${
           showContent 
             ? 'opacity-100 translate-y-0' 
             : 'opacity-0 translate-y-8'
-        }`}>
+        }`} style={{
+          animation: showContent ? 'fadeInUp 0.8s ease-out 0.2s both' : 'none'
+        }}>
           <span className="block md:hidden">
             Registrate como fiscal de
           </span>
@@ -165,11 +179,14 @@ const Hero = () => {
         <Button 
           variant="hero" 
           size="lg" 
-          className={`text-xl px-12 py-4 transition-opacity transition-transform duration-1000 delay-500 ease-out hover:scale-105 hover:transition-transform hover:duration-400 hover:delay-0 transition-transform duration-400 delay-0 ${
+          className={`text-xl px-12 py-4 transition-all duration-800 delay-300 ease-out hover:scale-105 hover:transition-transform hover:duration-400 hover:delay-0 ${
             showContent 
-              ? 'opacity-100 translate-y-0 scale-100' 
-              : 'opacity-0 translate-y-8 scale-95'
+              ? 'opacity-100 translate-y-0' 
+              : 'opacity-0 translate-y-8'
           }`}
+          style={{
+            animation: showContent ? 'fadeInUp 0.8s ease-out 0.3s both' : 'none'
+          }}
           onClick={() => {
             const formSection = document.getElementById('registration-form');
             if (formSection) {
