@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useMobile } from '@/hooks/use-mobile';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface ImageCarouselProps {
   images: string[];
@@ -20,7 +20,7 @@ const ImageCarousel = ({
 }: ImageCarouselProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
-  const isMobile = useMobile();
+  const isMobile = useIsMobile();
 
   // Auto-play functionality
   useEffect(() => {
@@ -89,9 +89,9 @@ const ImageCarousel = ({
         ))}
       </div>
 
-      {/* Navigation Arrows */}
+      {/* Navigation Arrows - Hidden on mobile */}
       <button
-        className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 bg-white/20 backdrop-blur-xl border border-white/40 text-white hover:bg-white/30 transition-all duration-300 z-20 w-10 h-10 md:w-12 md:h-12 rounded-full touch-manipulation flex items-center justify-center"
+        className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 bg-white/20 backdrop-blur-xl border border-white/40 text-white hover:bg-white/30 transition-all duration-300 z-20 w-10 h-10 md:w-12 md:h-12 rounded-full touch-manipulation flex items-center justify-center hidden md:flex"
         onClick={(e) => {
           e.preventDefault();
           e.stopPropagation();
@@ -108,7 +108,7 @@ const ImageCarousel = ({
       </button>
 
       <button
-        className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 bg-white/20 backdrop-blur-xl border border-white/40 text-white hover:bg-white/30 transition-all duration-300 z-20 w-10 h-10 md:w-12 md:h-12 rounded-full touch-manipulation flex items-center justify-center"
+        className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 bg-white/20 backdrop-blur-xl border border-white/40 text-white hover:bg-white/30 transition-all duration-300 z-20 w-10 h-10 md:w-12 md:h-12 rounded-full touch-manipulation flex items-center justify-center hidden md:flex"
         onClick={(e) => {
           e.preventDefault();
           e.stopPropagation();
