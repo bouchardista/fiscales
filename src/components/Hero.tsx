@@ -175,7 +175,7 @@ const Hero = () => {
             Registrate como fiscal de
           </span>
           <span className="block md:hidden">
-            La Libertad Avanza.
+            La Libertad Avanza Córdoba.
           </span>
           <span className="hidden md:block">
             Registrate como fiscal de La Libertad Avanza Córdoba.
