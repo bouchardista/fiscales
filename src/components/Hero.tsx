@@ -9,9 +9,9 @@ const Hero = () => {
 
   // Imágenes del carrusel en orden
   const carouselImages = [
+    '/Carrusel/3.jpeg',
     '/Carrusel/1.jpeg',
     '/Carrusel/2.jpeg',
-    '/Carrusel/3.jpeg',
     '/Carrusel/4.jpeg',
     '/Carrusel/5.jpeg',
     '/Carrusel/6.jpeg',
