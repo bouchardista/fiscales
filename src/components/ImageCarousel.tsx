@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useMobile } from '@/hooks/use-mobile';
 
 interface ImageCarouselProps {
   images: string[];
@@ -19,6 +20,7 @@ const ImageCarousel = ({
 }: ImageCarouselProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
+  const isMobile = useMobile();
 
   // Auto-play functionality
   useEffect(() => {
@@ -68,8 +70,12 @@ const ImageCarousel = ({
               className="w-full h-full object-cover"
               style={{
                 position: 'absolute',
-                top: imagePositions[index] || '50%',
-                left: '50%',
+                top: isMobile && mobileImagePositions[index]?.top 
+                  ? mobileImagePositions[index].top 
+                  : imagePositions[index] || '50%',
+                left: isMobile && mobileImagePositions[index]?.left 
+                  ? mobileImagePositions[index].left 
+                  : '50%',
                 transform: 'translate(-50%, -50%) scale(1.4)',
                 width: '177.77777778vh',
                 height: '56.25vw',
@@ -77,11 +83,6 @@ const ImageCarousel = ({
                 minHeight: '100%',
                 maxWidth: 'none',
                 maxHeight: 'none',
-                // Posicionamiento específico para mobile
-                ...(window.innerWidth < 768 && mobileImagePositions[index] ? {
-                  top: mobileImagePositions[index].top || imagePositions[index] || '50%',
-                  left: mobileImagePositions[index].left || '50%',
-                } : {})
               }}
             />
           </div>
