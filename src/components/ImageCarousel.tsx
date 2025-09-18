@@ -89,47 +89,61 @@ const ImageCarousel = ({
       </div>
 
       {/* Navigation Arrows */}
-      <Button
-        variant="outline"
-        size="lg"
-        className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 bg-white/20 backdrop-blur-xl border-white/40 text-white hover:bg-white/30 transition-all duration-300 z-20 w-10 h-10 md:w-12 md:h-12 p-0 rounded-full touch-manipulation"
-        onClick={goToPrevious}
-        onTouchStart={(e) => {
+      <button
+        className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 bg-white/20 backdrop-blur-xl border border-white/40 text-white hover:bg-white/30 transition-all duration-300 z-20 w-10 h-10 md:w-12 md:h-12 rounded-full touch-manipulation flex items-center justify-center"
+        onClick={(e) => {
           e.preventDefault();
+          e.stopPropagation();
           goToPrevious();
         }}
+        onTouchEnd={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          goToPrevious();
+        }}
+        style={{ touchAction: 'manipulation' }}
       >
         <ChevronLeft className="h-5 w-5 md:h-6 md:w-6" />
-      </Button>
+      </button>
 
-      <Button
-        variant="outline"
-        size="lg"
-        className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 bg-white/20 backdrop-blur-xl border-white/40 text-white hover:bg-white/30 transition-all duration-300 z-20 w-10 h-10 md:w-12 md:h-12 p-0 rounded-full touch-manipulation"
-        onClick={goToNext}
-        onTouchStart={(e) => {
+      <button
+        className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 bg-white/20 backdrop-blur-xl border border-white/40 text-white hover:bg-white/30 transition-all duration-300 z-20 w-10 h-10 md:w-12 md:h-12 rounded-full touch-manipulation flex items-center justify-center"
+        onClick={(e) => {
           e.preventDefault();
+          e.stopPropagation();
           goToNext();
         }}
+        onTouchEnd={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          goToNext();
+        }}
+        style={{ touchAction: 'manipulation' }}
       >
         <ChevronRight className="h-5 w-5 md:h-6 md:w-6" />
-      </Button>
+      </button>
 
       {/* Dots Indicator */}
       <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2 z-20">
         {images.map((_, index) => (
           <button
             key={index}
-            className={`w-3 h-3 md:w-3 md:h-3 rounded-full transition-all duration-300 touch-manipulation ${
+            className={`w-4 h-4 md:w-3 md:h-3 rounded-full transition-all duration-300 touch-manipulation ${
               index === currentIndex
                 ? 'bg-white scale-125'
                 : 'bg-white/50 hover:bg-white/70'
             }`}
-            onClick={() => goToSlide(index)}
-            onTouchStart={(e) => {
+            onClick={(e) => {
               e.preventDefault();
+              e.stopPropagation();
               goToSlide(index);
             }}
+            onTouchEnd={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              goToSlide(index);
+            }}
+            style={{ touchAction: 'manipulation' }}
           />
         ))}
       </div>
