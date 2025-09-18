@@ -16,7 +16,7 @@ export default function Landing() {
           <div className="order-1 lg:order-2 space-y-8">
             <div className="space-y-3">
               <h1 className="text-3xl lg:text-4xl font-bold bg-gradient-to-b from-[#6B237D] via-[#5A1E6A] via-[#4A1957] via-[#3A1444] to-[#2A0F31] bg-clip-text text-transparent">
-                Sumate a fiscalizar
+                SUMATE A FISCALIZAR
               </h1>
               
               <p className="text-lg font-bold text-gray-600 leading-relaxed">
