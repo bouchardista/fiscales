@@ -1,0 +1,139 @@
+import { useState, useEffect } from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+
+interface ImageCarouselProps {
+  images: string[];
+  autoPlayInterval?: number;
+  className?: string;
+  imagePositions?: { [key: number]: string };
+}
+
+const ImageCarousel = ({ 
+  images, 
+  autoPlayInterval = 3000, 
+  className = '',
+  imagePositions = {}
+}: ImageCarouselProps) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+
+  // Auto-play functionality
+  useEffect(() => {
+    if (isHovered) return; // Pause on hover
+
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) => 
+        prevIndex === images.length - 1 ? 0 : prevIndex + 1
+      );
+    }, autoPlayInterval);
+
+    return () => clearInterval(interval);
+  }, [images.length, autoPlayInterval, isHovered]);
+
+  const goToPrevious = () => {
+    setCurrentIndex(currentIndex === 0 ? images.length - 1 : currentIndex - 1);
+  };
+
+  const goToNext = () => {
+    setCurrentIndex(currentIndex === images.length - 1 ? 0 : currentIndex + 1);
+  };
+
+  const goToSlide = (index: number) => {
+    setCurrentIndex(index);
+  };
+
+  return (
+    <div 
+      className={`relative w-full h-full overflow-hidden ${className}`}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      {/* Images Container */}
+      <div className="relative w-full h-full">
+        {images.map((image, index) => (
+          <div
+            key={index}
+            className={`absolute inset-0 transition-all duration-1000 ease-in-out ${
+              index === currentIndex
+                ? 'opacity-100 scale-100'
+                : 'opacity-0 scale-105'
+            }`}
+          >
+            <img
+              src={image}
+              alt={`Slide ${index + 1}`}
+              className="w-full h-full object-cover"
+              style={{
+                position: 'absolute',
+                top: imagePositions[index] || '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%) scale(1.4)',
+                width: '177.77777778vh',
+                height: '56.25vw',
+                minWidth: '100%',
+                minHeight: '100%',
+                maxWidth: 'none',
+                maxHeight: 'none',
+              }}
+            />
+          </div>
+        ))}
+      </div>
+
+      {/* Navigation Arrows */}
+      <Button
+        variant="outline"
+        size="lg"
+        className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/20 backdrop-blur-xl border-white/40 text-white hover:bg-white/30 transition-all duration-300 z-20 w-12 h-12 p-0 rounded-full"
+        onClick={goToPrevious}
+      >
+        <ChevronLeft className="h-6 w-6" />
+      </Button>
+
+      <Button
+        variant="outline"
+        size="lg"
+        className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/20 backdrop-blur-xl border-white/40 text-white hover:bg-white/30 transition-all duration-300 z-20 w-12 h-12 p-0 rounded-full"
+        onClick={goToNext}
+      >
+        <ChevronRight className="h-6 w-6" />
+      </Button>
+
+      {/* Dots Indicator */}
+      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2 z-20">
+        {images.map((_, index) => (
+          <button
+            key={index}
+            className={`w-3 h-3 rounded-full transition-all duration-300 ${
+              index === currentIndex
+                ? 'bg-white scale-125'
+                : 'bg-white/50 hover:bg-white/70'
+            }`}
+            onClick={() => goToSlide(index)}
+          />
+        ))}
+      </div>
+
+      {/* Progress Bar */}
+      <div className="absolute bottom-0 left-0 w-full h-1 bg-black/20 z-20">
+        <div 
+          className="h-full bg-white transition-all duration-100 ease-linear"
+          style={{
+            width: isHovered ? '100%' : '0%',
+            animation: isHovered ? 'none' : `progress ${autoPlayInterval}ms linear infinite`
+          }}
+        />
+      </div>
+
+      <style>{`
+        @keyframes progress {
+          from { width: 0%; }
+          to { width: 100%; }
+        }
+      `}</style>
+    </div>
+  );
+};
+
+export default ImageCarousel;

@@ -1,28 +1,42 @@
 import { Button } from '@/components/ui/button';
 import { useState, useEffect } from 'react';
-import { Volume2, VolumeX } from 'lucide-react';
+// import { Volume2, VolumeX } from 'lucide-react';
+import ImageCarousel from './ImageCarousel';
 
 const Hero = () => {
-  const [isMuted, setIsMuted] = useState(true);
+  // const [isMuted, setIsMuted] = useState(true);
   const [showContent, setShowContent] = useState(false);
+
+  // Imágenes del carrusel en orden
+  const carouselImages = [
+    '/Carrusel/1.jpeg',
+    '/Carrusel/2.jpeg',
+    '/Carrusel/3.jpeg',
+    '/Carrusel/4.jpeg',
+    '/Carrusel/5.jpeg',
+    '/Carrusel/6.jpeg',
+    '/Carrusel/7.jpeg',
+    '/Carrusel/9.jpg',
+    '/Carrusel/10.webp'
+  ];
 
   useEffect(() => {
     // Mostrar el contenido inmediatamente al cargar
     setShowContent(true);
   }, []);
 
-  const toggleMute = () => {
-    setIsMuted(!isMuted);
-    // Recargar iframe con el parámetro mute correcto
-    const iframe = document.querySelector('iframe[src*="youtube.com"]') as HTMLIFrameElement;
-    if (iframe) {
-      const currentSrc = iframe.src;
-      const newSrc = !isMuted 
-        ? currentSrc.replace(/mute=\d/, 'mute=1')
-        : currentSrc.replace(/mute=\d/, 'mute=0');
-      iframe.src = newSrc;
-    }
-  };
+  // const toggleMute = () => {
+  //   setIsMuted(!isMuted);
+  //   // Recargar iframe con el parámetro mute correcto
+  //   const iframe = document.querySelector('iframe[src*="youtube.com"]') as HTMLIFrameElement;
+  //   if (iframe) {
+  //     const currentSrc = iframe.src;
+  //     const newSrc = !isMuted 
+  //       ? currentSrc.replace(/mute=\d/, 'mute=1')
+  //       : currentSrc.replace(/mute=\d/, 'mute=0');
+  //     iframe.src = newSrc;
+  //   }
+  // };
 
   return (
     <>
@@ -53,9 +67,8 @@ const Hero = () => {
 
             {/* Hero Section */}
       <section className="relative min-h-[80vh] flex items-center justify-center overflow-hidden">
-        {/* Audio Control Button */}
-        <div className="absolute top-6 right-6 z-20">
-          {/* Hand-drawn arrow pointing to button */}
+        {/* Audio Control Button - COMENTADO */}
+        {/* <div className="absolute top-6 right-6 z-20">
           <div className="absolute bottom-0 -left-16 text-white opacity-90">
             <img 
               src="/white-arrow.png" 
@@ -65,12 +78,9 @@ const Hero = () => {
           </div>
           
           <div className="group relative">
-            {/* Background glow effect */}
             <div className="absolute inset-0 bg-gradient-to-r from-[#832B99] to-[#59275A] rounded-2xl blur-xl opacity-40 group-hover:opacity-60 transition-all duration-300"></div>
             
-            {/* Button container */}
             <div className="relative bg-white/20 backdrop-blur-xl border border-white/40 rounded-2xl p-1 shadow-2xl">
-              {/* Button */}
               <Button
                 onClick={toggleMute}
                 variant="outline"
@@ -97,36 +107,24 @@ const Hero = () => {
               </Button>
             </div>
           </div>
-        </div>
+        </div> */}
 
-        {/* Video Background */}
+        {/* Image Carousel Background */}
         <div className="absolute inset-0 z-0">
-        <iframe
-          width="100%"
-          height="100%"
-          src="https://www.youtube.com/embed/jlhJjJ6Qiuo?autoplay=1&mute=1&loop=1&playlist=jlhJjJ6Qiuo&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&start=0&enablejsapi=1&origin=https://fiscales-landing.vercel.app&vq=hd1080"
-          title="Video de fondo"
-          frameBorder="0"
-          allow="autoplay; encrypted-media"
-          allowFullScreen
-          className="w-full h-full"
-          style={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%) scale(1.4)',
-            width: '177.77777778vh',
-            height: '56.25vw',
-            minWidth: '100%',
-            minHeight: '100%',
-            maxWidth: 'none',
-            maxHeight: 'none',
-          }}
-        />
-        <div className={`absolute inset-0 transition-all duration-1000 ease-out ${
-          showContent ? 'bg-black/40' : 'bg-black/5'
-        }`}></div>
-      </div>
+          <ImageCarousel 
+            images={carouselImages}
+            autoPlayInterval={4000}
+            className="w-full h-full"
+            imagePositions={{
+              4: '60%', // Imagen 5 (índice 4) posicionada más arriba
+              5: '60%', // Imagen 6 (índice 5) posicionada más arriba
+              8: '60%'  // Imagen 10 (índice 8) posicionada más arriba para ver mejor la cabeza
+            }}
+          />
+          <div className={`absolute inset-0 transition-all duration-1000 ease-out ${
+            showContent ? 'bg-black/40' : 'bg-black/5'
+          }`}></div>
+        </div>
 
       {/* Minimal Content */}
       <div className={`relative z-10 text-center text-white px-4 max-w-2xl mx-auto transition-all duration-800 ease-out ${
