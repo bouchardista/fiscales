@@ -7,13 +7,15 @@ interface ImageCarouselProps {
   autoPlayInterval?: number;
   className?: string;
   imagePositions?: { [key: number]: string };
+  mobileImagePositions?: { [key: number]: { top?: string; left?: string } };
 }
 
 const ImageCarousel = ({ 
   images, 
   autoPlayInterval = 3000, 
   className = '',
-  imagePositions = {}
+  imagePositions = {},
+  mobileImagePositions = {}
 }: ImageCarouselProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
@@ -75,6 +77,11 @@ const ImageCarousel = ({
                 minHeight: '100%',
                 maxWidth: 'none',
                 maxHeight: 'none',
+                // Posicionamiento específico para mobile
+                ...(window.innerWidth < 768 && mobileImagePositions[index] ? {
+                  top: mobileImagePositions[index].top || imagePositions[index] || '50%',
+                  left: mobileImagePositions[index].left || '50%',
+                } : {})
               }}
             />
           </div>
@@ -85,19 +92,27 @@ const ImageCarousel = ({
       <Button
         variant="outline"
         size="lg"
-        className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/20 backdrop-blur-xl border-white/40 text-white hover:bg-white/30 transition-all duration-300 z-20 w-12 h-12 p-0 rounded-full"
+        className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 bg-white/20 backdrop-blur-xl border-white/40 text-white hover:bg-white/30 transition-all duration-300 z-20 w-10 h-10 md:w-12 md:h-12 p-0 rounded-full touch-manipulation"
         onClick={goToPrevious}
+        onTouchStart={(e) => {
+          e.preventDefault();
+          goToPrevious();
+        }}
       >
-        <ChevronLeft className="h-6 w-6" />
+        <ChevronLeft className="h-5 w-5 md:h-6 md:w-6" />
       </Button>
 
       <Button
         variant="outline"
         size="lg"
-        className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/20 backdrop-blur-xl border-white/40 text-white hover:bg-white/30 transition-all duration-300 z-20 w-12 h-12 p-0 rounded-full"
+        className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 bg-white/20 backdrop-blur-xl border-white/40 text-white hover:bg-white/30 transition-all duration-300 z-20 w-10 h-10 md:w-12 md:h-12 p-0 rounded-full touch-manipulation"
         onClick={goToNext}
+        onTouchStart={(e) => {
+          e.preventDefault();
+          goToNext();
+        }}
       >
-        <ChevronRight className="h-6 w-6" />
+        <ChevronRight className="h-5 w-5 md:h-6 md:w-6" />
       </Button>
 
       {/* Dots Indicator */}
@@ -105,12 +120,16 @@ const ImageCarousel = ({
         {images.map((_, index) => (
           <button
             key={index}
-            className={`w-3 h-3 rounded-full transition-all duration-300 ${
+            className={`w-3 h-3 md:w-3 md:h-3 rounded-full transition-all duration-300 touch-manipulation ${
               index === currentIndex
                 ? 'bg-white scale-125'
                 : 'bg-white/50 hover:bg-white/70'
             }`}
             onClick={() => goToSlide(index)}
+            onTouchStart={(e) => {
+              e.preventDefault();
+              goToSlide(index);
+            }}
           />
         ))}
       </div>
