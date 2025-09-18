@@ -121,8 +121,9 @@ const Hero = () => {
               8: '60%'  // Imagen 10 (índice 8) posicionada más arriba para ver mejor la cabeza
             }}
             mobileImagePositions={{
-              1: { left: '0%' }, // Imagen 2 (índice 1) más hacia la izquierda en mobile
-              2: { left: '100%' }, // Imagen 3 (índice 2) más hacia la derecha en mobile
+              0: { left: '100%' }, // Imagen 3 (índice 0) más hacia la derecha en mobile
+              1: { left: '0%' }, // Imagen 1 (índice 1) más hacia la izquierda en mobile
+              2: { left: '0%' }, // Imagen 2 (índice 2) más hacia la izquierda en mobile
               5: { left: '0%' }, // Imagen 6 (índice 5) más hacia la izquierda en mobile
               6: { left: '100%' }, // Imagen 7 (índice 6) más hacia la derecha en mobile
               8: { left: '0%' }  // Imagen 9 (índice 8) más hacia la izquierda en mobile
@@ -177,7 +178,7 @@ const Hero = () => {
             La Libertad Avanza.
           </span>
           <span className="hidden md:block">
-            Registrate como fiscal de La Libertad Avanza.
+            Registrate como fiscal de La Libertad Avanza Córdoba.
           </span>
         </p>
         
