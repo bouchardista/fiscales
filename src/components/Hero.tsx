@@ -9,9 +9,9 @@ const Hero = () => {
 
   // Imágenes del carrusel en orden
   const carouselImages = [
-    '/Carrusel/3.jpeg',
     '/Carrusel/1.jpeg',
     '/Carrusel/2.jpeg',
+    '/Carrusel/3.jpeg',
     '/Carrusel/4.jpeg',
     '/Carrusel/5.jpeg',
     '/Carrusel/6.jpeg',
@@ -121,9 +121,8 @@ const Hero = () => {
               8: '60%'  // Imagen 10 (índice 8) posicionada más arriba para ver mejor la cabeza
             }}
             mobileImagePositions={{
-              0: { left: '100%' }, // Imagen 3 (índice 0) más hacia la derecha en mobile
-              1: { left: '0%' }, // Imagen 1 (índice 1) más hacia la izquierda en mobile
-              2: { left: '0%' }, // Imagen 2 (índice 2) más hacia la izquierda en mobile
+              1: { left: '60%' }, // Imagen 2 (índice 1) más hacia la derecha en mobile
+              2: { left: '48%' }, // Imagen 3 (índice 2) un poco más hacia la izquierda en mobile
               5: { left: '0%' }, // Imagen 6 (índice 5) más hacia la izquierda en mobile
               6: { left: '100%' }, // Imagen 7 (índice 6) más hacia la derecha en mobile
               8: { left: '0%' }  // Imagen 9 (índice 8) más hacia la izquierda en mobile
