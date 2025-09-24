@@ -85,6 +85,11 @@ const ImageCarousel = ({
                 maxHeight: 'none',
               }}
             />
+            {/* Difuminado violáceo a los costados */}
+            <div className="absolute inset-0 pointer-events-none">
+              <div className="absolute left-0 top-0 w-80 h-full bg-gradient-to-r from-[#832B99]/60 to-transparent blur-md"></div>
+              <div className="absolute right-0 top-0 w-80 h-full bg-gradient-to-l from-[#832B99]/60 to-transparent blur-md"></div>
+            </div>
           </div>
         ))}
       </div>

@@ -10,7 +10,7 @@ const Hero = () => {
   // Imágenes del carrusel en orden
   const carouselImages = [
     '/Carrusel/1.jpeg',
-    '/Carrusel/2.jpeg',
+    '/Carrusel/2.png',
     '/Carrusel/3.jpeg',
     '/Carrusel/4.jpeg',
     '/Carrusel/5.jpeg',
@@ -115,8 +115,9 @@ const Hero = () => {
             autoPlayInterval={4000}
             className="w-full h-full"
             imagePositions={{
+              0: '30%', // Imagen 1 (índice 0) posicionada más abajo
               2: '70%', // Imagen 3 (índice 2) posicionada más arriba
-              4: '70%', // Imagen 5 (índice 4) posicionada más arriba
+              4: '30%', // Imagen 5 (índice 4) posicionada más abajo
               6: '70%', // Imagen 7 (índice 6) posicionada más arriba
               7: '70%'  // Imagen 8 (índice 7) posicionada más arriba
             }}
