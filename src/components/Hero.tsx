@@ -117,7 +117,7 @@ const Hero = () => {
             imagePositions={{
               0: '30%', // Imagen 1 (índice 0) posicionada más abajo
               2: '70%', // Imagen 3 (índice 2) posicionada más arriba
-              4: '30%', // Imagen 5 (índice 4) posicionada más abajo
+              4: '70%', // Imagen 5 (índice 4) posicionada más arriba
               6: '70%', // Imagen 7 (índice 6) posicionada más arriba
               7: '70%'  // Imagen 8 (índice 7) posicionada más arriba
             }}
