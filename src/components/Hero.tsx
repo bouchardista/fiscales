@@ -122,6 +122,7 @@ const Hero = () => {
               7: '70%'  // Imagen 8 (índice 7) posicionada más arriba
             }}
             mobileImagePositions={{
+              0: { left: '70%' }, // Imagen 1 (índice 0) un poco más hacia la izquierda en mobile
               1: { left: '60%' }, // Imagen 2 (índice 1) más hacia la derecha en mobile
               2: { left: '48%' }, // Imagen 3 (índice 2) un poco más hacia la izquierda en mobile
               5: { left: '0%' }, // Imagen 6 (índice 5) más hacia la izquierda en mobile
