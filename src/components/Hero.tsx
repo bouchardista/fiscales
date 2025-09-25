@@ -124,10 +124,10 @@ const Hero = () => {
             mobileImagePositions={{
               0: { left: '70%' }, // Imagen 1 (índice 0) un poco más hacia la izquierda en mobile
               1: { left: '60%' }, // Imagen 2 (índice 1) más hacia la derecha en mobile
-              2: { left: '48%' }, // Imagen 3 (índice 2) un poco más hacia la izquierda en mobile
-              5: { left: '0%' }, // Imagen 6 (índice 5) más hacia la izquierda en mobile
-              6: { left: '100%' }, // Imagen 7 (índice 6) más hacia la derecha en mobile
-              7: { left: '0%' }  // Imagen 8 (índice 7) más hacia la izquierda en mobile
+              2: { left: '50%' }, // Imagen 3 (índice 2) un poco más hacia la izquierda en mobile
+              5: { left: '-15%' }, // Imagen 6 (índice 5) más hacia la derecha en mobile
+              6: { left: '75%' }, // Imagen 7 (índice 6) más hacia la derecha en mobile
+              7: { left: '-10%' }  // Imagen 8 (índice 7) más hacia la derecha en mobile
             }}
           />
           <div className={`absolute inset-0 transition-all duration-1000 ease-out ${
